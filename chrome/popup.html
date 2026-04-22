@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --db-accent: #ff6b6b;
+            --db-dark: #22153d;
+            --db-bg: #f8f9fa;
+            --db-ugly: "Comic Sans MS", "Comic Sans", "Apple Chancery", cursive;
+        }
+
+        body {
+            width: 250px;
+            padding: 20px;
+            background-color: var(--db-bg);
+            color: var(--db-dark);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-family: var(--db-ugly);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--db-dark);
+            display: inline-block;
+            transform: rotate(-2deg);
+            /* Added the jank */
+        }
+
+        .logo span {
+            color: var(--db-accent);
+            font-family: var(--db-ugly);
+        }
+
+        .module-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .module-info label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .module-info span {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* Modern Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--db-accent);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(18px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">donkey<span>bot</span></div>
+    </div>
+
+    <div class="module-card">
+        <div class="module-info">
+            <label>LanguageNot</label>
+            <span>Auto-fetch answers</span>
+        </div>
+        <label class="switch">
+            <input type="checkbox" id="ln-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

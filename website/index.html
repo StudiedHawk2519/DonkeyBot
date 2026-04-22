@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>donkeybot | Making homework bearable</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --db-accent: #ff6b6b;
+            --db-dark: #22153d;
+            --db-bg: #f8f9fa;
+            --db-white: #ffffff;
+            --db-gray: #f0f0f0;
+            --db-accent-dark: #ee5253;
+            /* The "Ugly" font */
+            --db-ugly: "Comic Sans MS", "Comic Sans", "Apple Chancery", cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--db-bg);
+            color: var(--db-dark);
+            line-height: 1.6;
+        }
+
+        nav {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--db-white);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Branding: Comic Sans MS */
+        .logo {
+            font-family: var(--db-ugly);
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--db-dark);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--db-accent);
+            font-family: var(--db-ugly);
+        }
+
+        header {
+            background-color: #ffffff;
+            background-image: radial-gradient(var(--db-gray) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--db-ugly);
+            /* Header branding */
+            font-size: 5rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+            transform: rotate(-1deg);
+            /* Extra jank */
+        }
+
+        h1 span {
+            color: var(--db-accent);
+            font-family: var(--db-ugly);
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .module-section {
+            padding: 100px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .module-card {
+            background: var(--db-white);
+            padding: 45px;
+            border-radius: 35px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--db-accent);
+        }
+
+        .module-badge {
+            display: inline-block;
+            background: var(--db-accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .module-badge.soon {
+            background: #666;
+        }
+
+        .module-card h3 {
+            font-family: var(--db-ugly);
+            /* Module titles in Comic Sans */
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--db-dark);
+        }
+
+        .module-card p {
+            color: #666;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            background: var(--db-accent);
+            color: white;
+            border-bottom: 4px solid var(--db-accent-dark);
+            text-align: center;
+            font-family: var(--db-ugly);
+            /* Buttons in Comic Sans */
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            border-bottom-width: 0;
+        }
+
+        /* Showcase Section */
+        #showcase {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--db-bg);
+        }
+
+        .screenshot-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 5px solid var(--db-white);
+        }
+
+        .screenshot-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #install {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .install-box {
+            background: var(--db-bg);
+            padding: 50px;
+            border-radius: 35px;
+            border-left: 10px solid var(--db-accent);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .step {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .step strong {
+            color: var(--db-accent);
+            font-family: var(--db-ugly);
+        }
+
+        footer {
+            padding: 100px 10%;
+            background: var(--db-dark);
+            color: white;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .footer-disclaimer {
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #bbb;
+        }
+
+        .footer-brand {
+            font-family: var(--db-ugly);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" class="logo">donkey<span>bot</span></a>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>donkey<span>bot</span></h1>
+            <p class="tagline">An extension to make homework a bit more bearable! With multiple modules for different
+                homework platforms.</p>
+            <a href="#install" class="btn" style="padding: 18px 60px; font-size: 1.1rem;">Download Now</a>
+        </div>
+    </header>
+
+    <section id="modules" class="module-section">
+        <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 60px;">The Suite</h2>
+        <div class="grid">
+
+            <div class="module-card">
+                <span class="module-badge">Out now</span>
+                <h3>LanguageNot</h3>
+                <p>The original tool for LanguageNut. No silly AI rubbish :) it intercepts network requests to find the
+                    answer instantly. Supports Reading and Listening tasks with a hideable UI. (writing coming soon)</p>
+                <a href="#showcase" class="btn">See it in action</a>
+            </div>
+
+            <div class="module-card">
+                <span class="module-badge soon">Coming Soon</span>
+                <h3>Decade</h3>
+                <p>Make your Century homework 10x faster! When released you can automate as many chicken nuggets as you
+                    like! Keep an eye out for release...</p>
+                <span style="color: #999; font-size: 0.9rem; font-style: italic;">In Development...</span>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="showcase">
+        <h2 style="font-family: var(--db-ugly); font-size: 2.5rem; margin-bottom: 40px;">Look at it go!</h2>
+        <div class="screenshot-wrap">
+            <img src="assets/languagenot.png" alt="LanguageNot Screenshot">
+        </div>
+    </section>
+
+    <section id="install">
+        <div class="container">
+            <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 50px;">Installation Guide</h2>
+            <div class="install-box">
+                <div class="step">
+                    <strong>Step 1: Download files.</strong>
+                    <p style="margin: 10px 0 20px 0;">Get the latest code from the official GitHub repository. Download
+                        the entire 'chrome' folder - you should get a .zip file.</p>
+                    <a href="#" target="_blank" class="btn" style="background: #333; border-color: #111;">GitHub
+                        Repository</a>
+                </div>
+                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and keep the folder in a
+                    permanent location.</div>
+                <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
+                    <strong>Developer Mode</strong>.
+                </div>
+                <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the folder.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <span class="footer-brand">donkeybot</span>
+        <div class="footer-disclaimer">
+            <p>DonkeyBot is an independent suite of research tools and is not affiliated, associated, authorized,
+                endorsed by, or in any way officially connected with LanguageNut Ltd, Century-Tech Limited (Century
+                Tech), or any of their subsidiaries. All product and company names, including LanguageNut and Century,
+                are trademarks™ or registered® trademarks of their respective holders. Their use on this site is for
+                identification and compatibility description purposes only and does not imply any affiliation with or
+                endorsement by them.</p>
+            <p style="margin-top: 30px; opacity: 0.5;">&copy; 2026 DonkeyBot Project. Educational Research Only.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
