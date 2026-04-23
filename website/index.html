@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>donkeybot | Making homework bearable</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --db-accent: #ff6b6b;
@@ -14,8 +16,8 @@
             --db-white: #ffffff;
             --db-gray: #f0f0f0;
             --db-accent-dark: #ee5253;
-            /* The "Ugly" font */
-            --db-ugly: "Comic Sans MS", "Comic Sans", "Apple Chancery", cursive;
+            /* Prioritize system Comic Sans, then use Google Font as backup */
+            --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
         }
 
         * {
@@ -44,7 +46,6 @@
             z-index: 1000;
         }
 
-        /* Branding: Comic Sans MS */
         .logo {
             font-family: var(--db-ugly);
             font-size: 28px;
@@ -69,12 +70,10 @@
 
         h1 {
             font-family: var(--db-ugly);
-            /* Header branding */
             font-size: 5rem;
             margin-bottom: 10px;
             font-weight: 900;
             transform: rotate(-1deg);
-            /* Extra jank */
         }
 
         h1 span {
@@ -139,7 +138,6 @@
 
         .module-card h3 {
             font-family: var(--db-ugly);
-            /* Module titles in Comic Sans */
             font-size: 2.2rem;
             margin-bottom: 10px;
             color: var(--db-dark);
@@ -163,7 +161,6 @@
             border-bottom: 4px solid var(--db-accent-dark);
             text-align: center;
             font-family: var(--db-ugly);
-            /* Buttons in Comic Sans */
         }
 
         .btn:hover {
@@ -176,7 +173,6 @@
             border-bottom-width: 0;
         }
 
-        /* Showcase Section */
         #showcase {
             padding: 80px 20px;
             text-align: center;
@@ -269,7 +265,7 @@
                 <span class="module-badge">Out now</span>
                 <h3>LanguageNot</h3>
                 <p>The original tool for LanguageNut. No silly AI rubbish :) it intercepts network requests to find the
-                    answer instantly. Supports Reading and Listening tasks with a hideable UI. (writing coming soon)</p>
+                    answer instantly. Supports Reading and Listening tasks with a hideable UI.</p>
                 <a href="#showcase" class="btn">See it in action</a>
             </div>
 
