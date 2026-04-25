@@ -9,11 +9,14 @@
     };
 
     let isMinimized = false;
+    let isDragging = false;
+    let startX, startY;
+
     if (document.getElementById('ln-helper-ui')) return;
 
     const ui = document.createElement('div');
     ui.id = "ln-helper-ui";
-    ui.style = `position:fixed; z-index:2147483647; font-family:'Poppins', sans-serif; background:${LN_THEME.bg}; color:${LN_THEME.accent}; border:1px solid ${LN_THEME.border}; border-radius:12px; padding:8px 12px; box-shadow:${LN_THEME.shadow}; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow:hidden; cursor:pointer; top:15px; right:15px;`;
+    ui.style = `position:fixed; z-index:2147483647; font-family:'Poppins', sans-serif; background:${LN_THEME.bg}; color:${LN_THEME.accent}; border:1px solid ${LN_THEME.border}; border-radius:12px; padding:8px 12px; box-shadow:${LN_THEME.shadow}; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow:hidden; cursor:pointer; top:15px; right:15px; width:120px;`;
 
     ui.innerHTML = `
         <div id="ln-header" style="display:flex; justify-content:space-between; align-items:center; min-width:80px;">
@@ -35,11 +38,45 @@
     `;
     document.body.appendChild(ui);
 
-    ui.addEventListener('click', (e) => {
+    // --- Drag and Click Logic ---
+    let offsetX, offsetY;
+
+    ui.onmousedown = (e) => {
         if (e.target.closest('#ln-details')) return;
-        isMinimized = !isMinimized;
-        scan();
-    });
+
+        isDragging = false;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        offsetX = e.clientX - ui.getBoundingClientRect().left;
+        offsetY = e.clientY - ui.getBoundingClientRect().top;
+
+        document.onmousemove = (moveEvent) => {
+            // If mouse moves more than 5px, it's a drag, not a toggle click
+            if (Math.abs(moveEvent.clientX - startX) > 5 || Math.abs(moveEvent.clientY - startY) > 5) {
+                isDragging = true;
+            }
+
+            if (isDragging) {
+                ui.style.left = (moveEvent.clientX - offsetX) + 'px';
+                ui.style.top = (moveEvent.clientY - offsetY) + 'px';
+                ui.style.right = 'auto';
+                ui.style.transition = 'none'; // Disable transition during drag for smoothness
+            }
+        };
+
+        document.onmouseup = () => {
+            document.onmousemove = null;
+            document.onmouseup = null;
+            ui.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; // Re-enable animation
+
+            // If we didn't drag, then it's a click to toggle
+            if (!isDragging) {
+                isMinimized = !isMinimized;
+                scan();
+            }
+        };
+    };
 
     function getBestText(obj) {
         if (!obj) return null;
@@ -82,5 +119,6 @@
             ui.style.width = "120px"; activeArea.style.display = "none";
         }
     }
+
     setInterval(scan, 600);
 })();

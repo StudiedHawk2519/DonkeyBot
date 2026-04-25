@@ -2,22 +2,20 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --db-accent: #ff6b6b;
             --db-dark: #22153d;
             --db-bg: #f8f9fa;
-            --db-ugly: "Comic Sans MS", "Comic Sans", "Apple Chancery", cursive;
+            --db-ugly: "Comic Sans MS", "Comic Sans", cursive;
         }
 
         body {
-            width: 250px;
+            width: 280px;
             padding: 20px;
-            background-color: var(--db-bg);
-            color: var(--db-dark);
+            background: var(--db-bg);
             font-family: 'Poppins', sans-serif;
-            margin: 0;
         }
 
         .header {
@@ -29,22 +27,19 @@
             font-family: var(--db-ugly);
             font-size: 24px;
             font-weight: bold;
-            text-decoration: none;
-            color: var(--db-dark);
-            display: inline-block;
             transform: rotate(-2deg);
-            /* Added the jank */
+            display: inline-block;
         }
 
         .logo span {
             color: var(--db-accent);
-            font-family: var(--db-ugly);
         }
 
-        .module-card {
+        .card {
             background: white;
+            border-radius: 15px;
             padding: 15px;
-            border-radius: 12px;
+            margin-bottom: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
@@ -52,21 +47,42 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .module-info label {
+        .info b {
             display: block;
-            font-weight: 600;
             font-size: 14px;
+            color: var(--db-dark);
         }
 
-        .module-info span {
+        .info span {
             font-size: 11px;
             color: #888;
         }
 
-        /* Modern Toggle Switch */
+        .api-input {
+            width: 100%;
+            border: 1px solid #eee;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+            outline: none;
+        }
+
+        .note {
+            font-size: 10px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .note a {
+            color: rgb(11, 172, 254);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         .switch {
             position: relative;
-            display: inline-block;
             width: 40px;
             height: 22px;
         }
@@ -84,7 +100,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background: #ccc;
             transition: .4s;
             border-radius: 34px;
         }
@@ -96,13 +112,13 @@
             width: 16px;
             left: 3px;
             bottom: 3px;
-            background-color: white;
+            background: white;
             transition: .4s;
             border-radius: 50%;
         }
 
         input:checked+.slider {
-            background-color: var(--db-accent);
+            background: var(--db-accent);
         }
 
         input:checked+.slider:before {
@@ -116,15 +132,21 @@
         <div class="logo">donkey<span>bot</span></div>
     </div>
 
-    <div class="module-card">
-        <div class="module-info">
-            <label>LanguageNot</label>
-            <span>Auto-fetch answers</span>
-        </div>
-        <label class="switch">
-            <input type="checkbox" id="ln-toggle">
-            <span class="slider"></span>
-        </label>
+    <div class="card">
+        <div class="info"><b>LanguageNot</b><span>LanguageNut Helper</span></div>
+        <label class="switch"><input type="checkbox" id="ln-toggle"><span class="slider"></span></label>
+    </div>
+
+    <div class="card">
+        <div class="info"><b>Decade</b><span>Century Tech Helper</span></div>
+        <label class="switch"><input type="checkbox" id="decade-toggle"><span class="slider"></span></label>
+    </div>
+
+    <div class="card" style="flex-direction: column; align-items: flex-start;">
+        <div class="info"><b>llm7 Settings</b><span>API Key (Optional)</span></div>
+        <input type="password" id="decade-api-key" class="api-input" placeholder="unused">
+        <div class="note">Optional - only needed for better rates. Get one for free at <a href="https://token.llm7.io/"
+                target="_blank">token.llm7.io</a></div>
     </div>
 
     <script src="popup.js"></script>

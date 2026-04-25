@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "DonkeyBot",
     "version": "1.1",
-    "description": "DonkeyBot - Instantly find answers to homework assignments. Includes LanguageNot and [Decade coming soon].",
+    "description": "DonkeyBot - Homework Helper. Includes LanguageNot and Decade.",
     "permissions": [
         "storage",
         "scripting"
@@ -25,16 +25,26 @@
                 "content.js"
             ],
             "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "*://*.century.tech/*"
+            ],
+            "js": [
+                "decade.js"
+            ],
+            "run_at": "document_idle"
         }
     ],
     "web_accessible_resources": [
         {
             "resources": [
                 "inject.js",
+                "decade_inject.js",
                 "assets/icon.svg"
             ],
             "matches": [
-                "*://*.languagenut.com/*"
+                "<all_urls>"
             ]
         }
     ]
