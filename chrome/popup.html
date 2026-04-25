@@ -41,21 +41,30 @@
             padding: 15px;
             margin-bottom: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top row containing Title and Toggle */
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 8px;
         }
 
         .info b {
-            display: block;
             font-size: 14px;
             color: var(--db-dark);
         }
 
         .info span {
+            display: block;
             font-size: 11px;
             color: #888;
+            line-height: 1.4;
+            margin-top: 4px;
         }
 
         .api-input {
@@ -66,6 +75,7 @@
             font-size: 12px;
             margin-top: 10px;
             outline: none;
+            box-sizing: border-box;
         }
 
         .note {
@@ -85,6 +95,8 @@
             position: relative;
             width: 40px;
             height: 22px;
+            flex-shrink: 0;
+            /* Prevents switch from squishing */
         }
 
         .switch input {
@@ -133,20 +145,40 @@
     </div>
 
     <div class="card">
-        <div class="info"><b>LanguageNot</b><span>LanguageNut Helper</span></div>
-        <label class="switch"><input type="checkbox" id="ln-toggle"><span class="slider"></span></label>
+        <div class="card-header">
+            <b>LanguageNot</b>
+            <label class="switch">
+                <input type="checkbox" id="ln-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="info">
+            <span>Works for multiple choice languagenut tasks. Doesn't use ai, just intercepts requests which means you
+                get instant and 100% correct answers.</span>
+        </div>
     </div>
 
     <div class="card">
-        <div class="info"><b>Decade</b><span>Century Tech Helper</span></div>
-        <label class="switch"><input type="checkbox" id="decade-toggle"><span class="slider"></span></label>
+        <div class="card-header">
+            <b>Decade</b>
+            <label class="switch">
+                <input type="checkbox" id="decade-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="info">
+            <span>Adds an 'AI' button to the sidebar on Century. This is quite reliable but doesn't work with images
+                and might take a moment to load.</span>
+        </div>
     </div>
 
-    <div class="card" style="flex-direction: column; align-items: flex-start;">
-        <div class="info"><b>llm7 Settings</b><span>API Key (Optional)</span></div>
+    <div class="card">
+        <b>API key (llm7) Settings</b>
         <input type="password" id="decade-api-key" class="api-input" placeholder="unused">
-        <div class="note">Optional - only needed for better rates. Get one for free at <a href="https://token.llm7.io/"
-                target="_blank">token.llm7.io</a></div>
+        <div class="note">
+            Optional - adding one will give you a greater number of requests per minute. Get one for free at
+            <a href="https://token.llm7.io/" target="_blank">token.llm7.io</a>
+        </div>
     </div>
 
     <script src="popup.js"></script>
