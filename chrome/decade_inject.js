@@ -1,31 +1,63 @@
 (function () {
     const THEME = {
+        bg: "rgba(51, 51, 51, 0.85)", // Semi-transparent version of your grey
+        blur: "blur(12px)", // The glassmorphism effect
         accent: "#7d848c",
-        bg: "rgb(51, 51, 51)",
-        active: "rgb(11, 172, 254)",
-        hover: "rgb(11, 172, 254)"
+        highlight: "rgb(11, 172, 254)", // Your blue
+        border: "rgba(255, 255, 255, 0.1)",
+        shadow: "0 10px 30px rgba(0,0,0,0.4)"
     };
 
-    function applyTheme() {
-        chrome.storage.local.get(['decade_nav_color'], (data) => {
-            if (!data.decade_nav_color) return;
+    function createBubbleOverlay() {
+        if (document.getElementById('decade-bubble')) return;
 
-            // Target the specific sidebar container class from your screenshot
-            const sidebar = document.querySelector(".rc-app-frame__menu");
-            if (sidebar) {
-                sidebar.style.backgroundColor = data.decade_nav_color;
-                sidebar.style.setProperty('--main-menu-bg', data.decade_nav_color);
-            }
+        const bubble = document.createElement('div');
+        bubble.id = "decade-bubble";
 
-            // XPath fallback for /html/body/div[2]/div[1]/div[1]
-            const path = "/html/body/div[2]/div[1]/div[1]";
-            const targetDiv = document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-            if (targetDiv) {
-                targetDiv.style.backgroundColor = data.decade_nav_color;
-            }
-        });
+        bubble.style = `
+            position: fixed; 
+            z-index: 2147483647; 
+            font-family: 'Poppins', sans-serif; 
+            background: ${THEME.bg}; 
+            backdrop-filter: ${THEME.blur};
+            -webkit-backdrop-filter: ${THEME.blur};
+            color: white; 
+            border: 1px solid ${THEME.border}; 
+            border-radius: 16px; 
+            padding: 0; 
+            box-shadow: ${THEME.shadow}; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: none;
+            opacity: 0;
+            width: 260px;
+            overflow: hidden;
+        `;
+
+        bubble.innerHTML = `
+            <div style="background: rgba(255,255,255,0.05); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="background: ${THEME.highlight}; color: white; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 5px;">AI</span>
+                    <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.5px; color: #fff;">DECADE</span>
+                </div>
+                <div id="decade-bubble-close" style="cursor: pointer; opacity: 0.5; font-size: 20px; line-height: 1;">&times;</div>
+            </div>
+            <div style="padding: 18px;">
+                <div style="font-size: 10px; text-transform: uppercase; opacity: 0.5; font-weight: 700; margin-bottom: 4px; color: ${THEME.highlight};">Response</div>
+                <div id="decade-bubble-answer" style="font-size: 14px; line-height: 1.5; color: #ffffff; min-height: 20px; font-weight: 500;">
+                    Ready...
+                </div>
+            </div>
+            <div style="position: absolute; left: -6px; top: 22px; width: 12px; height: 12px; background: rgba(60, 60, 60, 0.9); border-left: 1px solid ${THEME.border}; border-bottom: 1px solid ${THEME.border}; transform: rotate(45deg); z-index: -1;"></div>
+        `;
+
+        document.body.appendChild(bubble);
+        document.getElementById('decade-bubble-close').onclick = () => {
+            bubble.style.opacity = "0";
+            bubble.style.transform = "translateX(10px)";
+            setTimeout(() => { bubble.style.display = "none"; }, 400);
+            resetBtn();
+        };
     }
-    setInterval(applyTheme, 1000);
 
     function resetBtn() {
         const btn = document.getElementById('decade-ai-btn');
@@ -38,65 +70,38 @@
         }
     }
 
-    function createBubbleOverlay() {
-        if (document.getElementById('decade-bubble')) return;
-        const bubble = document.createElement('div');
-        bubble.id = "decade-bubble";
-        bubble.style = `
-            display: none; position: fixed; background: ${THEME.bg}; color: white; 
-            border: 2px solid ${THEME.active}; border-radius: 12px; padding: 18px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6); z-index: 2147483647; 
-            width: 260px; pointer-events: auto; font-family: 'Poppins', sans-serif;
-            opacity: 0; transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateX(-10px);
-        `;
-        bubble.innerHTML = `
-            <div id="decade-bubble-close" style="position: absolute; top: 8px; right: 10px; cursor: pointer; color: ${THEME.active}; font-size: 18px; font-weight: bold; line-height: 1;">&times;</div>
-            <div id="decade-bubble-answer" style="font-weight: 400; color: white; font-size: 15px; line-height: 1.4; word-wrap: break-word;">Ready...</div>
-            <div style="position: absolute; left: -12px; top: 15px; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 12px solid ${THEME.active};"></div>
-        `;
-        document.body.appendChild(bubble);
-        document.getElementById('decade-bubble-close').onclick = () => {
-            bubble.style.opacity = "0";
-            setTimeout(() => { bubble.style.display = "none"; }, 300);
-            resetBtn();
-        };
-    }
-
     function injectSidebarButton() {
         if (document.getElementById('decade-sidebar-item')) return;
         createBubbleOverlay();
-        const sidebar = document.evaluate("/html/body/div[2]/div[1]/div[1]/nav/ul", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        if (!sidebar) return;
+        const navUl = document.evaluate("/html/body/div[2]/div[1]/div[1]/nav/ul", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (!navUl) return;
 
         const li = document.createElement('li');
         li.id = "decade-sidebar-item";
-        li.style = "margin: 10px 0; list-style: none; display: flex; justify-content: center;";
-        li.innerHTML = `<div id="decade-ai-btn" data-state="idle" style="cursor: pointer; background: transparent; border: 2px solid ${THEME.accent}; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><span id="decade-btn-text" style="color: ${THEME.accent}; font-weight: bold; font-size: 10px; font-family: sans-serif;">AI</span></div>`;
-        sidebar.appendChild(li);
+        li.style = "margin: 15px 0; list-style: none; display: flex; justify-content: center;";
+        li.innerHTML = `<div id="decade-ai-btn" data-state="idle" style="cursor: pointer; background: transparent; border: 2px solid ${THEME.accent}; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><span id="decade-btn-text" style="color: ${THEME.accent}; font-weight: bold; font-size: 11px;">AI</span></div>`;
+        navUl.appendChild(li);
 
         const btn = document.getElementById('decade-ai-btn');
-        const bubble = document.getElementById('decade-bubble');
-
         btn.onclick = (e) => {
             e.stopPropagation();
-            if (btn.dataset.state === "working") return;
-            if (bubble.style.display === "block") {
-                bubble.style.opacity = "0";
-                setTimeout(() => { bubble.style.display = "none"; }, 300);
-                return;
-            }
+            const bubble = document.getElementById('decade-bubble');
             const rect = btn.getBoundingClientRect();
-            bubble.style.top = (rect.top - 5) + "px";
-            bubble.style.left = (rect.right + 20) + "px";
+
             bubble.style.display = "block";
-            setTimeout(() => { bubble.style.opacity = "1"; bubble.style.transform = "translateX(0px)"; }, 10);
+            bubble.style.top = (rect.top - 10) + "px";
+            bubble.style.left = (rect.right + 18) + "px";
+
+            setTimeout(() => {
+                bubble.style.opacity = "1";
+                bubble.style.transform = "translateX(0)";
+            }, 10);
 
             btn.dataset.state = "working";
-            btn.style.background = THEME.active;
-            btn.style.borderColor = THEME.active;
+            btn.style.background = THEME.highlight;
+            btn.style.borderColor = THEME.highlight;
             document.getElementById('decade-btn-text').style.color = "#ffffff";
-            document.getElementById('decade-bubble-answer').innerHTML = "Thinking...";
+            document.getElementById('decade-bubble-answer').innerHTML = `<span style="opacity: 0.5;">Thinking...</span>`;
 
             const el = document.evaluate("/html/body/div[2]/div[1]/div[2]/div/div/div/div[1]/div[2]/div/div", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             window.postMessage({ type: "DECADE_ASK_AI", text: el ? el.innerText : "Question not found." }, "*");

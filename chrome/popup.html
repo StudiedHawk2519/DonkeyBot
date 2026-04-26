@@ -151,44 +151,6 @@
         input:checked+.slider:before {
             transform: translateX(18px);
         }
-
-        details summary {
-            font-size: 11px;
-            font-weight: 600;
-            color: rgb(11, 172, 254);
-            cursor: pointer;
-            list-style: none;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 8px;
-            outline: none;
-            display: flex;
-            align-items: center;
-        }
-
-        details summary::after {
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid rgb(11, 172, 254);
-            margin-left: 6px;
-        }
-
-        .theme-presets {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
-        }
-
-        .color-dot {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 
@@ -217,20 +179,6 @@
             <span>Adds an 'AI' button to the sidebar on Century. This is quite reliable but doesn't work with images and
                 might take a moment to load.</span>
         </div>
-        <details>
-            <summary>Customise Theme</summary>
-            <div style="margin-top: 8px;">
-                <div class="theme-presets">
-                    <div class="color-dot" style="background: #1a2a3a;" data-color="#1a2a3a"></div>
-                    <div class="color-dot" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
-                    <div class="color-dot" style="background: #0ab4d2;" data-color="#0ab4d2"></div>
-                    <div class="color-dot" style="background: #22153d;" data-color="#22153d"></div>
-                    <div class="color-dot" style="background: #2ecc71;" data-color="#2ecc71"></div>
-                </div>
-                <input type="text" id="decade-nav-color" class="api-input" placeholder="Hex color (e.g. #1a2a3a)"
-                    style="margin-top: 10px;">
-            </div>
-        </details>
     </div>
 
     <div class="card">
