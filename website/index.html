@@ -16,7 +16,6 @@
             --db-white: #ffffff;
             --db-gray: #f0f0f0;
             --db-accent-dark: #ee5253;
-            /* Prioritize system Comic Sans, then use Google Font as backup */
             --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
         }
 
@@ -34,6 +33,7 @@
             line-height: 1.6;
         }
 
+        /* ... Navigation and Header styles remain the same ... */
         nav {
             padding: 20px 5%;
             display: flex;
@@ -90,6 +90,63 @@
             margin-right: auto;
         }
 
+        /* NEW CAROUSEL STYLES */
+        #showcase {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: var(--db-bg);
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 900px;
+            height: 500px;
+            margin: 50px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 5px solid var(--db-white);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            background: white;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Stacking Logic */
+        .carousel-item.active {
+            z-index: 3;
+            transform: translateX(0) scale(1);
+            opacity: 1;
+        }
+
+        .carousel-item.next {
+            z-index: 2;
+            transform: translateX(40px) translateY(20px) scale(0.95);
+            opacity: 0.7;
+        }
+
+        .carousel-item.hidden {
+            z-index: 1;
+            transform: translateX(80px) translateY(40px) scale(0.9);
+            opacity: 0;
+        }
+
+        /* ... Rest of the original styles ... */
         .module-section {
             padding: 100px 20px;
             max-width: 1100px;
@@ -109,7 +166,6 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
             border: 2px solid transparent;
-            text-align: left;
             display: flex;
             flex-direction: column;
         }
@@ -130,10 +186,6 @@
             text-transform: uppercase;
             margin-bottom: 15px;
             align-self: flex-start;
-        }
-
-        .module-badge.soon {
-            background: #666;
         }
 
         .module-card h3 {
@@ -161,37 +213,6 @@
             border-bottom: 4px solid var(--db-accent-dark);
             text-align: center;
             font-family: var(--db-ugly);
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-            border-bottom-width: 0;
-        }
-
-        #showcase {
-            padding: 80px 20px;
-            text-align: center;
-            background-color: var(--db-bg);
-        }
-
-        .screenshot-wrap {
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border: 5px solid var(--db-white);
-        }
-
-        .screenshot-wrap img {
-            width: 100%;
-            height: auto;
-            display: block;
         }
 
         #install {
@@ -226,13 +247,6 @@
             text-align: center;
         }
 
-        .footer-disclaimer {
-            max-width: 1000px;
-            margin: 0 auto;
-            line-height: 1.8;
-            color: #bbb;
-        }
-
         .footer-brand {
             font-family: var(--db-ugly);
             font-size: 1.5rem;
@@ -260,33 +274,29 @@
     <section id="modules" class="module-section">
         <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 60px;">The Suite</h2>
         <div class="grid">
-
             <div class="module-card">
                 <span class="module-badge">Out now</span>
                 <h3>LanguageNot</h3>
-                <p>Works for multiple choice languagenut tasks. Doesn't use ai, just intercepts requests which means you
-                    get instant and 100% correct answers. Has a great ui that can be minimised to hide from prying eyes!
-                </p>
+                <p>Works for multiple choice languagenut tasks. Intercepts requests for instant and 100% correct
+                    answers.</p>
                 <a href="#showcase" class="btn">See it in action</a>
             </div>
 
             <div class="module-card" style="--db-accent: rgb(11, 172, 254); --db-accent-dark: #0984e3;">
                 <span class="module-badge" style="background: rgb(11, 172, 254);">Just Released!</span>
                 <h3>Decade</h3>
-                <p>Make your Century homework 10x faster! Adds an 'AI' button (always free) to the sidebar on Century.
-                    This is quite reliable but doesn't work with images and might take a moment to load.</p>
+                <p>Make your Century homework 10x faster! Adds a free AI button to the sidebar on Century.</p>
                 <a href="#install" class="btn" style="background: rgb(11, 172, 254); border-color: #0984e3;">Try it
                     out</a>
             </div>
-
         </div>
     </section>
 
     <section id="showcase">
         <h2 style="font-family: var(--db-ugly); font-size: 2.5rem; margin-bottom: 40px;">Look at it go!</h2>
-        <div class="screenshot-wrap">
-            <img src="assets/languagenot.png" alt="LanguageNot Screenshot">
+        <div class="carousel-container" id="carousel">
         </div>
+        <p style="font-size: 0.9rem; color: #888; margin-top: 20px;">Click the image to flip through</p>
     </section>
 
     <section id="install">
@@ -295,15 +305,12 @@
             <div class="install-box">
                 <div class="step">
                     <strong>Step 1: Download files.</strong>
-                    <p style="margin: 10px 0 20px 0;">Get the latest code from the official GitHub repository. Click the
-                        green <strong>'code'</strong> button and choose <strong>'Download .ZIP'</strong>.</p>
+                    <p style="margin: 10px 0 20px 0;">Get the latest code from GitHub.</p>
                     <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn"
-                        style="background: #333; border-color: #111;">GitHub
-                        Repository</a>
+                        style="background: #333; border-color: #111;">GitHub Repository</a>
                 </div>
                 <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                    <strong>chrome</strong> folder within it. Move this folder somewhere safe. (delete the rest of the
-                    files)
+                    <strong>chrome</strong> folder.
                 </div>
                 <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
                     <strong>Developer Mode</strong>.
@@ -317,13 +324,57 @@
     <footer>
         <span class="footer-brand">donkeybot</span>
         <div class="footer-disclaimer">
-            <p>DonkeyBot is an independent collection of tools and is not affiliated or in any way officially connected
-                with LanguageNut Ltd, Century-Tech Limited (Century
-                Tech), or any of their subsidiaries.</p>
+            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
+                Century-Tech Limited.</p>
             <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
         </div>
     </footer>
 
+    <script>
+        // List your images here with the prefix 'image:'
+        // Note: You must manually list them here because browser JS cannot read folder contents
+        const images = [
+            'assets/languagenot.png',
+            'assets/decade.png'
+        ];
+
+        const carousel = document.getElementById('carousel');
+        let currentIndex = 0;
+
+        function initCarousel() {
+            carousel.innerHTML = '';
+            images.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = 'carousel-item';
+                div.innerHTML = `<img src="${src}" alt="Screenshot ${index}">`;
+                div.onclick = nextSlide;
+                carousel.appendChild(div);
+            });
+            updateSlides();
+        }
+
+        function updateSlides() {
+            const items = document.querySelectorAll('.carousel-item');
+            items.forEach((item, index) => {
+                item.classList.remove('active', 'next', 'hidden');
+
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else if (index === (currentIndex + 1) % items.length) {
+                    item.classList.add('next');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateSlides();
+        }
+
+        initCarousel();
+    </script>
 </body>
 
 </html>
