@@ -2,154 +2,193 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Comic+Neue:wght@700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --db-accent: #ff6b6b;
+            --db-accent-dark: #ee5253;
             --db-dark: #22153d;
             --db-bg: #f8f9fa;
-            --db-ugly: "Comic Sans MS", "Comic Sans", cursive;
+            --db-white: #ffffff;
+            --db-gray: #f0f0f0;
+            --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
         }
 
         body {
-            width: 280px;
-            height: 450px;
-            padding: 20px;
-            background: var(--db-bg);
+            width: 320px;
+            min-height: 480px;
+            padding: 0;
+            margin: 0;
+            background-color: var(--db-white);
+            background-image: radial-gradient(var(--db-gray) 0.5px, transparent 0.5px);
+            background-size: 15px 15px;
             font-family: 'Poppins', sans-serif;
-            overflow-y: auto;
+            color: var(--db-dark);
             overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar */
-        body::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        body::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        body::-webkit-scrollbar-thumb {
-            background: #ddd;
-            border-radius: 10px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            padding: 25px 0 15px 0;
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .logo {
             font-family: var(--db-ugly);
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 900;
             transform: rotate(-2deg);
             display: inline-block;
+            letter-spacing: -1px;
         }
 
         .logo span {
             color: var(--db-accent);
         }
 
+        .container {
+            padding: 20px;
+        }
+
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
+            border-radius: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--db-accent);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .info b {
-            font-size: 14px;
+        .card-header b {
+            font-family: var(--db-ugly);
+            font-size: 1.4rem;
             color: var(--db-dark);
         }
 
         .info span {
             display: block;
             font-size: 11px;
-            color: #888;
-            line-height: 1.4;
-            margin-top: 4px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 3D ON/OFF TOGGLE BUTTON */
+        .toggle-btn-wrapper {
+            position: relative;
+            width: 65px;
+            height: 32px;
+        }
+
+        .toggle-btn-wrapper input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #ccc;
+            color: white;
+            font-family: var(--db-ugly);
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            border-bottom: 4px solid #999;
+            transition: all 0.1s ease;
+            user-select: none;
+            text-transform: uppercase;
+        }
+
+        /* Default OFF State Text */
+        .toggle-label::after {
+            content: "OFF";
+        }
+
+        /* ON State */
+        input:checked+.toggle-label {
+            background: var(--db-accent);
+            border-bottom-color: var(--db-accent-dark);
+        }
+
+        input:checked+.toggle-label::after {
+            content: "ON";
+        }
+
+        /* 3D Click Animation */
+        .toggle-label:active {
+            transform: translateY(2px);
+            border-bottom-width: 1px;
+            margin-bottom: 3px;
+        }
+
+        .settings-area {
+            background: var(--db-gray);
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .settings-title {
+            font-family: var(--db-ugly);
+            font-weight: 700;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 8px;
         }
 
         .api-input {
             width: 100%;
-            border: 1px solid #eee;
-            padding: 8px;
-            border-radius: 8px;
+            border: 2px solid white;
+            padding: 10px;
+            border-radius: 12px;
             font-size: 12px;
-            margin-top: 10px;
             outline: none;
             box-sizing: border-box;
+            background: white;
         }
 
         .note {
             font-size: 10px;
-            color: #666;
-            margin-top: 8px;
+            color: #888;
+            margin-top: 10px;
             line-height: 1.4;
         }
 
         .note a {
-            color: rgb(11, 172, 254);
+            color: #00acee;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .switch {
-            position: relative;
-            width: 40px;
-            height: 22px;
-            flex-shrink: 0;
+        body::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 3px;
-            bottom: 3px;
-            background: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background: var(--db-accent);
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(18px);
+        body::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -159,47 +198,56 @@
         <div class="logo">donkey<span>bot</span></div>
     </div>
 
-    <div class="card">
-        <div class="card-header">
-            <b>LanguageNot</b>
-            <label class="switch"><input type="checkbox" id="ln-toggle"><span class="slider"></span></label>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <b>LanguageNot</b>
+                <div class="toggle-btn-wrapper">
+                    <input type="checkbox" id="ln-toggle">
+                    <label for="ln-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+            <div class="info">
+                <span>Works for multiple choice languagenut tasks. Doesn't use ai, just intercepts requests which means
+                    you get instant and 100% correct answers.</span>
+            </div>
         </div>
-        <div class="info">
-            <span>Works for multiple choice languagenut tasks. Doesn't use ai, just intercepts requests which means you
-                get instant and 100% correct answers.</span>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-header">
-            <b>Decade</b>
-            <label class="switch"><input type="checkbox" id="decade-toggle"><span class="slider"></span></label>
+        <div class="card">
+            <div class="card-header">
+                <b>Decade</b>
+                <div class="toggle-btn-wrapper">
+                    <input type="checkbox" id="decade-toggle">
+                    <label for="decade-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+            <div class="info">
+                <span>Adds an 'AI' button to the sidebar on Century. This is quite reliable but doesn't work with images
+                    and might take a moment to load.</span>
+            </div>
         </div>
-        <div class="info">
-            <span>Adds an 'AI' button to the sidebar on Century. This is quite reliable but doesn't work with images and
-                might take a moment to load.</span>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-header">
-            <b>Embers</b>
-            <label class="switch"><input type="checkbox" id="embers-toggle"><span class="slider"></span></label>
+        <div class="card">
+            <div class="card-header">
+                <b>Embers</b>
+                <div class="toggle-btn-wrapper">
+                    <input type="checkbox" id="embers-toggle">
+                    <label for="embers-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+            <div class="info">
+                <span>Adds an ai button to Sparx Maths. Because after Sparx sets your brain on fire, these answers are
+                    the only things left in the ashes (epic joke)!</span>
+            </div>
         </div>
-        <div class="info">
-            <span>Adds an ai button to Sparx Maths. Because after Sparx sets your brain on fire, these answers are the
-                only things left in the ashes (epic joke)!</span>
-        </div>
-    </div>
 
-    <div class="card">
-        <b>API key (llm7) Settings</b>
-        <input type="password" id="decade-api-key" class="api-input" placeholder="unused">
-        <div class="note">
-            Optional - adding one will give you way more requests per minute, but it isn't really needed. Get one for
-            free
-            at
-            <a href="https://token.llm7.io/" target="_blank">token.llm7.io</a>
+        <div class="settings-area">
+            <span class="settings-title">API key (llm7) Settings</span>
+            <input type="password" id="decade-api-key" class="api-input" placeholder="unused">
+            <div class="note">
+                Optional - adding one will give you way more requests per minute, but it isn't really needed. Get one
+                for free at <a href="https://token.llm7.io/" target="_blank">token.llm7.io</a>
+            </div>
         </div>
     </div>
 
