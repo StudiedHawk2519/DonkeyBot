@@ -1,5 +1,7 @@
 (function () {
     let seconds = 0;
+    // Load saved position or default to bottom-right
+    let calcPos = JSON.parse(localStorage.getItem('embers_calc_pos')) || { bottom: '20px', right: '20px', left: 'auto', top: 'auto' };
 
     const formatTime = (s) => {
         const h = Math.floor(s / 3600);
@@ -13,7 +15,7 @@
 
     setInterval(() => { seconds++; }, 1000);
 
-    // 1. UPDATED STYLESHEET
+    // 1. STYLESHEET
     if (!document.getElementById('embers-tactile-theme')) {
         const fontLink = document.createElement('link');
         fontLink.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap';
@@ -51,8 +53,8 @@
                 padding: 0 15px !important;
             }
 
-            /* SCRAPE BUTTON - FIXED CENTER IN HEADER */
-            #copy-prompt-btn {
+            /* TACTILE BUTTON BASE */
+            .tactile-btn {
                 background: var(--embers-blue) !important;
                 color: white !important;
                 border: none !important;
@@ -61,26 +63,37 @@
                 font-family: var(--db-ugly) !important;
                 font-weight: 900 !important;
                 border-radius: 12px !important;
-                padding: 0 16px !important;
                 cursor: pointer !important;
-                font-size: 11px !important;
                 transition: all 0.1s ease;
                 display: inline-flex !important;
                 align-items: center;
                 justify-content: center;
                 height: 32px !important;
                 box-sizing: border-box !important;
-                /* Positioned fixed to center of screen but top: 9px to stay in header */
                 position: fixed !important;
-                left: 50% !important;
-                top: 9px !important; 
-                transform: translateX(-50%) !important;
+                top: 9px !important;
                 z-index: 99999 !important;
             }
 
-            #copy-prompt-btn:active {
+            /* State: Pressed/Active */
+            .tactile-btn.is-active, .tactile-btn:active {
                 border-bottom-width: 1px !important;
-                top: 12px !important;
+                transform: translateY(3px) !important;
+                background: #28a745 !important;
+                border-bottom-color: #1e7e34 !important;
+            }
+
+            #copy-prompt-btn { 
+                left: calc(50% - 10px) !important; 
+                padding: 0 16px !important; 
+                font-size: 11px !important; 
+                transform: translateX(-100%) !important;
+            }
+            
+            #toggle-calc-btn { 
+                left: calc(50% + 10px) !important; 
+                width: 36px !important; 
+                transform: none !important;
             }
 
             #copy-prompt-btn.success-glow {
@@ -88,31 +101,82 @@
                 border-bottom-color: #1e7e34 !important;
             }
 
-            /* SESSION TIMER - DM SANS */
+            /* DRAGGABLE DESMOS */
+            #desmos-container {
+                position: fixed;
+                width: 450px;
+                height: 400px;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                z-index: 100000;
+                display: none;
+                flex-direction: column;
+                overflow: hidden;
+                border: 2px solid var(--panel-dark);
+                bottom: ${calcPos.bottom};
+                right: ${calcPos.right};
+                left: ${calcPos.left};
+                top: ${calcPos.top};
+            }
+
+            #desmos-header {
+                height: 30px;
+                background: var(--panel-dark);
+                cursor: move;
+                display: flex;
+                align-items: center;
+                padding: 0 10px;
+                color: white;
+                font-family: var(--sparx-font);
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            #desmos-container iframe { border: none; width: 100%; height: calc(100% - 30px); }
+
             #embers-session-timer {
                 color: white !important;
                 font-family: var(--sparx-font) !important;
                 font-size: 15px !important;
                 font-weight: 700 !important;
                 margin-left: auto !important; 
-                user-select: none !important;
                 padding-right: 10px;
             }
 
-            .db-logo-pill {
-                background: white;
-                padding: 4px 12px;
-                border-radius: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+            .db-logo-pill { background: white; padding: 4px 12px; border-radius: 12px; display: flex; align-items: center; }
         `;
         document.head.appendChild(style);
     }
 
+    const makeDraggable = (el, handle) => {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        handle.onmousedown = (e) => {
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = () => {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                const savedPos = { top: el.style.top, left: el.style.left, bottom: 'auto', right: 'auto' };
+                localStorage.setItem('embers_calc_pos', JSON.stringify(savedPos));
+            };
+            document.onmousemove = (e) => {
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                el.style.top = (el.offsetTop - pos2) + "px";
+                el.style.left = (el.offsetLeft - pos1) + "px";
+                el.style.bottom = 'auto';
+                el.style.right = 'auto';
+            };
+        };
+    };
+
     const injectEmbers = () => {
-        // 2. EMBERS LOGO (Left)
+        // Restore Logos
         const logoImg = document.evaluate("/html/body/div[1]/div[2]/div[1]/a/img", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         if (logoImg && !document.getElementById('embers-logo-svg')) {
             const wrapper = document.createElement('div');
@@ -122,7 +186,6 @@
             logoImg.parentNode.replaceChild(wrapper, logoImg);
         }
 
-        // 3. DONKEYBOT LOGO (Right)
         const targetContainer = document.evaluate("/html/body/div[1]/div[2]/div[3]/div/div", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         if (targetContainer && !document.getElementById('db-pill-container')) {
             const wrapper = document.createElement('div');
@@ -133,19 +196,19 @@
             targetContainer.appendChild(wrapper);
         }
 
-        // 4. CENTER DIV (Timer and Scrape Button)
         const navbarCenter = document.evaluate("/html/body/div[1]/div[2]/div[2]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         if (navbarCenter) {
             navbarCenter.style.display = 'flex';
             navbarCenter.style.alignItems = 'center';
             navbarCenter.style.width = '100%';
 
+            // AI BUTTON
             if (!document.getElementById('copy-prompt-btn')) {
                 const btn = document.createElement('button');
                 btn.id = 'copy-prompt-btn';
+                btn.className = 'tactile-btn';
                 btn.innerText = "COPY AI PROMPT";
-                document.body.appendChild(btn); // Append to body so position:fixed works correctly
-
+                document.body.appendChild(btn);
                 btn.onclick = async () => {
                     const container = document.evaluate("/html/body/div[1]/div[3]/div[2]/div/div/div/div[1]/div/div[3]/div[1]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                     if (container) {
@@ -154,12 +217,31 @@
                             await navigator.clipboard.writeText(prompt);
                             btn.classList.add('success-glow');
                             btn.innerText = "COPIED!";
-                            setTimeout(() => {
-                                btn.classList.remove('success-glow');
-                                btn.innerText = "COPY AI PROMPT";
-                            }, 2000);
+                            setTimeout(() => { btn.classList.remove('success-glow'); btn.innerText = "COPY AI PROMPT"; }, 2000);
                         } catch (err) { btn.innerText = "ERR"; }
                     }
+                };
+            }
+
+            // LATCHING CALCULATOR BUTTON
+            if (!document.getElementById('toggle-calc-btn')) {
+                const calcBtn = document.createElement('button');
+                calcBtn.id = 'toggle-calc-btn';
+                calcBtn.className = 'tactile-btn';
+                calcBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calculator" viewBox="0 0 16 16"><path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/></svg>`;
+                document.body.appendChild(calcBtn);
+
+                const calcDiv = document.createElement('div');
+                calcDiv.id = 'desmos-container';
+                calcDiv.innerHTML = `<div id="desmos-header">Calculator (Drag Me)</div><iframe src="https://www.desmos.com/scientific"></iframe>`;
+                document.body.appendChild(calcDiv);
+
+                makeDraggable(calcDiv, calcDiv.querySelector('#desmos-header'));
+
+                calcBtn.onclick = () => {
+                    calcBtn.classList.toggle('is-active');
+                    const isActive = calcBtn.classList.contains('is-active');
+                    calcDiv.style.display = isActive ? 'flex' : 'none';
                 };
             }
 
@@ -168,11 +250,7 @@
                 timerSpan.id = 'embers-session-timer';
                 navbarCenter.appendChild(timerSpan);
             }
-
-            const timerEl = document.getElementById('embers-session-timer');
-            if (timerEl) {
-                timerEl.innerText = formatTime(seconds);
-            }
+            document.getElementById('embers-session-timer').innerText = formatTime(seconds);
         }
     };
 
