@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mule | Donkeybot</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --db-accent: #ff6b6b;
+            --db-dark: #22153d;
+            --db-bg: #f8f9fa;
+            --db-white: #ffffff;
+            --db-gray: #f0f0f0;
+            --db-accent-dark: #ee5253;
+            --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--db-bg);
+            color: var(--db-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        nav {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--db-white);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--db-ugly) !important;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--db-dark);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--db-accent);
+            font-family: var(--db-ugly) !important;
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            max-width: 1000px;
+            margin: 20px auto;
+            width: 95%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .chat-header {
+            padding: 25px 30px;
+            background: white;
+            border-bottom: 1px solid var(--db-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .mule-title {
+            font-family: var(--db-ugly) !important;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .mule-disclaimer {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 400;
+        }
+
+        .badge {
+            background: var(--db-accent);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-family: var(--db-ugly);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        #chat-window {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-msg {
+            align-self: flex-start;
+            background: var(--db-bg);
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            white-space: pre-wrap;
+        }
+
+        .user-msg {
+            align-self: flex-end;
+            background: var(--db-dark);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .input-area {
+            padding: 25px;
+            background: white;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 15px;
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 2px solid var(--db-bg);
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            border-color: var(--db-accent);
+        }
+
+        .send-btn {
+            background: var(--db-accent);
+            color: white;
+            border: none;
+            padding: 0 35px;
+            border-radius: 15px;
+            font-family: var(--db-ugly);
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 4px solid var(--db-accent-dark);
+            transition: 0.1s;
+        }
+
+        .send-btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+        }
+
+        .typing-indicator {
+            font-style: italic;
+            opacity: 0.5;
+            font-size: 0.85rem;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">donkey<span>bot</span></a>
+        <div class="nav-links" style="display: flex; gap: 30px; align-items: center;">
+            <a href="index.html"
+                style="text-decoration: none; color: var(--db-dark); font-weight: 700; opacity: 0.6;">Home</a>
+            <a href="ai.html"
+                style="text-decoration: none; color: var(--db-dark); font-weight: 700; border-bottom: 3px solid var(--db-accent);">Mule
+                AI</a>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-left">
+                <h2 class="mule-title">mule</h2>
+                <span class="mule-disclaimer">Mule cannot see the previous messages in this chat</span>
+            </div>
+            <span class="badge">ALWAYS FREE</span>
+        </div>
+
+        <div id="chat-window">
+            <div class="message bot-msg">hee-haw. im mule. i help with homework. tell me what you need.</div>
+        </div>
+
+        <form class="input-area" id="chat-form">
+            <input type="text" id="user-input" placeholder="Type your question here..." autocomplete="off">
+            <button type="submit" class="send-btn">SEND</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('user-input');
+        const chatWindow = document.getElementById('chat-window');
+
+        // Store only the last exchange to prevent errors
+        let lastExchange = [];
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const prompt = input.value.trim();
+            if (!prompt) return;
+
+            addMessage(prompt, 'user-msg');
+            input.value = '';
+
+            const loadingMsg = addMessage("mule is thinking...", 'bot-msg typing-indicator');
+
+            const systemMessage = {
+                role: "system",
+                content: "you are a helpful homework assistant called mule. your personality is slightly donkey-like: blunt, a bit stubborn but hardworking. write exclusively in lowercase. do not use emojis. use latex for all mathematical formulas and scientific notation (e.g., use $...$ or $$...$$). do not reference your own limitations or the fact that you are an ai. just answer the question as helpfully as possible, avoiding unnecessary explanations. if the question is unclear, ask for clarification instead of making assumptions. if you don't know the answer, say you don't know instead of trying to make something up."
+            };
+
+            // Prepare the request messages
+            const currentMessages = [
+                systemMessage,
+                ...lastExchange, // This will be empty on the first message
+                { role: "user", content: prompt }
+            ];
+
+            try {
+                const response = await fetch('https://api.llm7.io/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer unused'
+                    },
+                    body: JSON.stringify({
+                        model: "default",
+                        messages: currentMessages
+                    })
+                });
+
+                const data = await response.json();
+                loadingMsg.remove();
+
+                if (data.choices && data.choices[0]) {
+                    const content = data.choices[0].message.content;
+
+                    // Update lastExchange to ONLY contain this latest prompt and answer
+                    lastExchange = [
+                        { role: "user", content: prompt },
+                        { role: "assistant", content: content }
+                    ];
+
+                    const botDiv = addMessage(content, 'bot-msg');
+
+                    if (window.MathJax) {
+                        MathJax.typesetPromise([botDiv]);
+                    }
+                } else {
+                    addMessage("stable's empty. try again.", 'bot-msg');
+                }
+
+            } catch (err) {
+                loadingMsg.remove();
+                addMessage("couldn't reach the stable. check your connection.", 'bot-msg');
+            }
+        };
+
+        function addMessage(text, className) {
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.innerText = text;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return div;
+        }
+    </script>
+</body>
+
+</html>
