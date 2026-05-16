@@ -227,6 +227,44 @@
             border-left: 10px solid var(--db-accent);
             max-width: 850px;
             margin: 0 auto;
+            transition: border-color 0.2s ease;
+        }
+
+        /* TABS UI STYLES */
+        .install-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            padding: 12px 35px;
+            font-family: var(--db-ugly);
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            opacity: 0.5;
+            background: var(--db-accent);
+            border-bottom: 4px solid var(--db-accent-dark);
+        }
+
+        .tab-btn.active {
+            opacity: 1;
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        .browser-instructions {
+            display: none;
+        }
+
+        .browser-instructions.active {
+            display: block;
         }
 
         .step {
@@ -237,6 +275,27 @@
         .step strong {
             color: var(--db-accent);
             font-family: var(--db-ugly);
+        }
+
+        /* WOBBLY FOOTER STYLES */
+        .footer-wrapper {
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .wobble-divider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--db-dark);
+            /* Mask to cut out the top inverted wobbly curve */
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V60c120,40,240,40,360,0s240-40,360,0,240,40,360,0,240-40,360,0V0Z" fill="black"/></svg>');
+            mask-size: 100% 100%;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V60c120,40,240,40,360,0s240-40,360,0,240,40,360,0,240-40,360,0V0Z" fill="black"/></svg>');
+            -webkit-mask-size: 100% 100%;
+            transform: translateY(-98%);
         }
 
         footer {
@@ -318,6 +377,12 @@
     <section id="install">
         <div class="container">
             <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 50px;">Installation Guide</h2>
+
+            <div class="install-tabs">
+                <button class="tab-btn chrome active" onclick="switchBrowser('chrome')">Chrome</button>
+                <button class="tab-btn firefox" onclick="switchBrowser('firefox')">Firefox</button>
+            </div>
+
             <div class="install-box">
                 <div class="step">
                     <strong>Step 1: Download files.</strong>
@@ -325,26 +390,46 @@
                     <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn"
                         style="background: #333; border-color: #111;">GitHub Repository</a>
                 </div>
-                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                    <strong>chrome</strong> folder.
+
+                <div id="instructions-chrome" class="browser-instructions active">
+                    <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
+                        <strong>chrome</strong> folder.
+                    </div>
+                    <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
+                        <strong>Developer Mode</strong>.
+                    </div>
+                    <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the
+                        folder.
+                    </div>
                 </div>
-                <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
-                    <strong>Developer Mode</strong>.
+
+                <div id="instructions-firefox" class="browser-instructions">
+                    <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
+                        <strong>firefox</strong> folder.
+                    </div>
+                    <div class="step"><strong>Step 3:</strong> Visit <code>about:debugging#/runtime/this-firefox</code>
+                        in your URL bar.
+                    </div>
+                    <div class="step"><strong>Step 4:</strong> Click <strong>Load Temporary Add-on...</strong> and
+                        select the <code>manifest.json</code> inside the folder.
+                    </div>
                 </div>
-                <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the folder.
-                </div>
+
             </div>
         </div>
     </section>
 
-    <footer>
-        <span class="footer-brand">donkeybot</span>
-        <div class="footer-disclaimer">
-            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
-                Century-Tech Limited.</p>
-            <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
-        </div>
-    </footer>
+    <div class="footer-wrapper">
+        <div class="wobble-divider"></div>
+        <footer>
+            <span class="footer-brand">donkeybot</span>
+            <div class="footer-disclaimer">
+                <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
+                    Century-Tech Limited.</p>
+                <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
+            </div>
+        </footer>
+    </div>
 
     <script>
         // List your images here with the prefix 'image:'
@@ -363,7 +448,7 @@
             images.forEach((src, index) => {
                 const div = document.createElement('div');
                 div.className = 'carousel-item';
-                div.innerHTML = `<img src="${src}" alt="Screenshot ${index}">`;
+                div.innerHTML = `<img src="${src}" alt=\"Screenshot ${index}\">`;
                 div.onclick = nextSlide;
                 carousel.appendChild(div);
             });
@@ -391,6 +476,20 @@
         }
 
         initCarousel();
+
+        // Dynamic Browser Selection Logic
+        function switchBrowser(browser) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.browser-instructions').forEach(inst => inst.classList.remove('active'));
+
+            if (browser === 'chrome') {
+                document.querySelector('.tab-btn.chrome').classList.add('active');
+                document.getElementById('instructions-chrome').classList.add('active');
+            } else if (browser === 'firefox') {
+                document.querySelector('.tab-btn.firefox').classList.add('active');
+                document.getElementById('instructions-firefox').classList.add('active');
+            }
+        }
     </script>
 </body>
 
