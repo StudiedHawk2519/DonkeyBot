@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap"
         rel="stylesheet">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
         :root {
             --db-accent: #ff6b6b;
@@ -64,21 +65,18 @@
 
         .chat-container {
             flex-grow: 1;
-            max-width: 1000px;
-            margin: 20px auto;
-            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
             background: white;
-            border-radius: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
         }
 
         .chat-header {
-            padding: 25px 30px;
+            padding: 25px 40px;
             background: white;
             border-bottom: 1px solid var(--db-gray);
             display: flex;
@@ -118,7 +116,7 @@
 
         #chat-window {
             flex-grow: 1;
-            padding: 30px;
+            padding: 40px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -128,12 +126,13 @@
         }
 
         .message {
-            max-width: 80%;
-            padding: 15px 20px;
-            border-radius: 20px;
+            max-width: 75%;
+            padding: 16px 24px;
+            border-radius: 22px;
             font-size: 1rem;
-            line-height: 1.5;
+            line-height: 1.6;
             word-wrap: break-word;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
         }
 
         .bot-msg {
@@ -151,38 +150,76 @@
             border-bottom-right-radius: 5px;
         }
 
+        /* Sub-message image notice style */
+        .image-notice {
+            align-self: flex-end;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: -15px;
+            margin-right: 10px;
+            font-style: italic;
+        }
+
         .input-area {
-            padding: 25px;
+            padding: 30px 40px;
             background: white;
             border-top: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
             gap: 15px;
+            align-items: center;
         }
 
-        input {
+        .upload-btn {
+            background: var(--db-gray);
+            color: var(--db-dark);
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .upload-btn:hover {
+            background: #e2e2e2;
+        }
+
+        input[type="text"] {
             flex-grow: 1;
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: 2px solid var(--db-bg);
+            padding: 18px 28px;
+            border-radius: 18px;
+            border: 2px solid var(--db-gray);
             outline: none;
             font-size: 1rem;
+            transition: border-color 0.2s ease;
+            background-color: var(--db-bg);
         }
 
-        input:focus {
+        input[type="text"]:focus {
             border-color: var(--db-accent);
+            background-color: white;
         }
 
         .send-btn {
             background: var(--db-accent);
             color: white;
             border: none;
-            padding: 0 35px;
-            border-radius: 15px;
+            height: 55px;
+            padding: 0 45px;
+            border-radius: 18px;
             font-family: var(--db-ugly);
             font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
             border-bottom: 4px solid var(--db-accent-dark);
-            transition: 0.1s;
+            transition: transform 0.1s, border-bottom-width 0.1s;
+            flex-shrink: 0;
         }
 
         .send-btn:active {
@@ -195,6 +232,10 @@
             opacity: 0.5;
             font-size: 0.85rem;
             padding-left: 5px;
+        }
+
+        #file-input {
+            display: none;
         }
     </style>
 </head>
@@ -226,7 +267,11 @@
         </div>
 
         <form class="input-area" id="chat-form">
-            <input type="text" id="user-input" placeholder="Type your question here..." autocomplete="off">
+            <button type="button" class="upload-btn" id="plus-btn" title="Upload image for OCR">+</button>
+            <input type="file" id="file-input" accept="image/*">
+
+            <input type="text" id="user-input" placeholder="Type your question here or paste an image..."
+                autocomplete="off">
             <button type="submit" class="send-btn">SEND</button>
         </form>
     </div>
@@ -235,17 +280,70 @@
         const form = document.getElementById('chat-form');
         const input = document.getElementById('user-input');
         const chatWindow = document.getElementById('chat-window');
+        const plusBtn = document.getElementById('plus-btn');
+        const fileInput = document.getElementById('file-input');
 
-        // Store only the last exchange to prevent errors
         let lastExchange = [];
 
-        form.onsubmit = async (e) => {
+        plusBtn.onclick = () => fileInput.click();
+
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) handleImageUpload(file);
+        };
+
+        window.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const blob = items[i].getAsFile();
+                    handleImageUpload(blob);
+                    break;
+                }
+            }
+        });
+
+        async function handleImageUpload(file) {
+            const loadingMsg = addMessage("mule is reading text from image...", 'bot-msg typing-indicator');
+
+            try {
+                const result = await Tesseract.recognize(file, 'eng');
+                const extractedText = result.data.text.trim();
+                loadingMsg.remove();
+
+                if (extractedText) {
+                    // Send parsed content and specify it came from an image to show the notice
+                    sendPayload(extractedText, true);
+                } else {
+                    addMessage("couldn't find any text inside that image. try a clearer snapshot.", 'bot-msg');
+                }
+            } catch (err) {
+                loadingMsg.remove();
+                addMessage("failed to process image text extraction.", 'bot-msg');
+                console.error(err);
+            }
+        }
+
+        form.onsubmit = (e) => {
             e.preventDefault();
             const prompt = input.value.trim();
             if (!prompt) return;
 
-            addMessage(prompt, 'user-msg');
             input.value = '';
+            sendPayload(prompt, false);
+        };
+
+        async function sendPayload(promptText, isFromImage = false) {
+            addMessage(promptText, 'user-msg');
+
+            // If the message was processed from an image, attach the requested lowercase notice directly beneath it
+            if (isFromImage) {
+                const noticeDiv = document.createElement('div');
+                noticeDiv.className = 'image-notice';
+                noticeDiv.innerText = 'mule cannot directly see the image, only the text within it.';
+                chatWindow.appendChild(noticeDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
 
             const loadingMsg = addMessage("mule is thinking...", 'bot-msg typing-indicator');
 
@@ -254,11 +352,10 @@
                 content: "you are a helpful homework assistant called mule. your personality is slightly donkey-like: blunt, a bit stubborn but hardworking. write exclusively in lowercase. do not use emojis. use latex for all mathematical formulas and scientific notation (e.g., use $...$ or $$...$$). do not reference your own limitations or the fact that you are an ai. just answer the question as helpfully as possible, avoiding unnecessary explanations. if the question is unclear, ask for clarification instead of making assumptions. if you don't know the answer, say you don't know instead of trying to make something up."
             };
 
-            // Prepare the request messages
             const currentMessages = [
                 systemMessage,
-                ...lastExchange, // This will be empty on the first message
-                { role: "user", content: prompt }
+                ...lastExchange,
+                { role: "user", content: promptText }
             ];
 
             try {
@@ -280,9 +377,8 @@
                 if (data.choices && data.choices[0]) {
                     const content = data.choices[0].message.content;
 
-                    // Update lastExchange to ONLY contain this latest prompt and answer
                     lastExchange = [
-                        { role: "user", content: prompt },
+                        { role: "user", content: promptText },
                         { role: "assistant", content: content }
                     ];
 
@@ -299,7 +395,7 @@
                 loadingMsg.remove();
                 addMessage("couldn't reach the stable. check your connection.", 'bot-msg');
             }
-        };
+        }
 
         function addMessage(text, className) {
             const div = document.createElement('div');
