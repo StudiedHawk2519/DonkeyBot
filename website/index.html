@@ -277,33 +277,14 @@
             font-family: var(--db-ugly);
         }
 
-        /* WOBBLY FOOTER STYLES */
-        .footer-wrapper {
-            position: relative;
-            margin-top: 80px;
-        }
-
-        .wobble-divider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            background-color: var(--db-dark);
-            /* Mask to cut out the top inverted wobbly curve */
-            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V60c120,40,240,40,360,0s240-40,360,0,240,40,360,0,240-40,360,0V0Z" fill="black"/></svg>');
-            mask-size: 100% 100%;
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V60c120,40,240,40,360,0s240-40,360,0,240,40,360,0,240-40,360,0V0Z" fill="black"/></svg>');
-            -webkit-mask-size: 100% 100%;
-            transform: translateY(-98%);
-        }
-
         footer {
             padding: 100px 10%;
             background: var(--db-dark);
             color: white;
             font-size: 0.85rem;
             text-align: center;
+            margin-top: 0;
+            /* Fixed: Removed the gray strip by eliminating top margin */
         }
 
         .footer-brand {
@@ -419,17 +400,14 @@
         </div>
     </section>
 
-    <div class="footer-wrapper">
-        <div class="wobble-divider"></div>
-        <footer>
-            <span class="footer-brand">donkeybot</span>
-            <div class="footer-disclaimer">
-                <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
-                    Century-Tech Limited.</p>
-                <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
-            </div>
-        </footer>
-    </div>
+    <footer>
+        <span class="footer-brand">donkeybot</span>
+        <div class="footer-disclaimer">
+            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
+                Century-Tech Limited.</p>
+            <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
+        </div>
+    </footer>
 
     <script>
         // List your images here with the prefix 'image:'
