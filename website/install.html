@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download & Install | donkeybot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --db-primary: #111111;
+            --db-accent: #ff6b6b;
+            --db-bg: #f9fafb;
+            --db-white: #ffffff;
+            --db-text-muted: #666666;
+            --db-border: rgba(0, 0, 0, 0.08);
+            --db-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+            --db-shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.04);
+            --db-radius-sm: 8px;
+            --db-radius-md: 16px;
+            --db-radius-lg: 24px;
+        }
+
+        /* View transitions for smooth page-to-page gliding navigation */
+        @view-transition {
+            navigation: auto;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--db-bg);
+            /* Consistent structural background configurations across both documents */
+            background-image:
+                radial-gradient(rgba(0, 0, 0, 0.03) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.04), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.03), transparent 50%);
+            background-size: 24px 24px, 100% 100%, 100% 100%;
+            color: var(--db-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Floating Capsule Navigation */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        nav {
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--db-border);
+            padding: 12px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 40px;
+            box-shadow: var(--db-shadow-sm);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--db-primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--db-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--db-text-muted);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--db-primary);
+        }
+
+        .nav-links .btn-nav {
+            background: var(--db-primary);
+            color: var(--db-white);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Large Download Banner Header */
+        header {
+            padding: 160px 24px 60px 24px;
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        .download-banner {
+            background: #111111;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+            border-radius: var(--db-radius-lg);
+            padding: 80px 40px;
+            text-align: center;
+            color: var(--db-white);
+            box-shadow: var(--db-shadow-lg);
+        }
+
+        .download-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .download-banner p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            margin-bottom: 36px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: var(--db-radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-accent {
+            background: var(--db-white);
+            color: var(--db-primary);
+        }
+
+        .btn-accent:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--db-primary);
+            color: var(--db-white);
+        }
+
+        .btn-primary:hover {
+            background: #252525;
+            transform: translateY(-2px);
+        }
+
+        /* Installation Instructions Area */
+        .install-section {
+            padding: 40px 24px 100px 24px;
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        .install-box {
+            background: var(--db-white);
+            padding: 50px;
+            border-radius: var(--db-radius-lg);
+            border: 1px solid var(--db-border);
+            box-shadow: var(--db-shadow-sm);
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .install-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+            background-size: 12px 12px;
+            pointer-events: none;
+            border-radius: var(--db-radius-lg);
+        }
+
+        .install-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 48px;
+            background: #f1f3f5;
+            padding: 6px;
+            border-radius: 30px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .tab-btn {
+            padding: 10px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--db-text-muted);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--db-white);
+            color: var(--db-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .browser-instructions {
+            display: none;
+            position: relative;
+            z-index: 5;
+        }
+
+        .browser-instructions.active {
+            display: block;
+        }
+
+        .step {
+            margin-bottom: 32px;
+            font-size: 15px;
+            color: #333333;
+            position: relative;
+            z-index: 5;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step strong {
+            color: var(--db-primary);
+            display: block;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        code {
+            background: #f1f3f5;
+            padding: 3px 6px;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid var(--db-border);
+        }
+
+        footer {
+            padding: 60px 24px;
+            background: var(--db-white);
+            border-top: 1px solid var(--db-border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--db-text-muted);
+        }
+
+        .footer-disclaimer p {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="logo">donkey<span>bot</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#modules">Suite</a>
+                <a href="install.html" class="btn-nav">Download</a>
+            </div>
+        </nav>
+    </div>
+
+    <header>
+        <div class="download-banner">
+            <h1>Get DonkeyBot</h1>
+            <p>Make your homework bearable. Download the latest release package below and follow the easy integration
+                guide for your browser.</p>
+            <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-accent">Download
+                Extension package (.zip)</a>
+        </div>
+    </header>
+
+    <section class="install-section">
+        <div class="install-tabs">
+            <button class="tab-btn chrome active" onclick="switchBrowser('chrome')">Chrome</button>
+            <button class="tab-btn firefox" onclick="switchBrowser('firefox')">Firefox</button>
+        </div>
+
+        <div class="install-box">
+            <div class="step">
+                <strong>Step 1: Download files.</strong>
+                <p style="margin-top: 4px; color: var(--db-text-muted);">Get the latest code from GitHub by clicking the
+                    green button and <strong>"download zip"</strong>.</p>
+                <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-primary"
+                    style="margin-top: 16px; font-size: 14px; padding: 10px 20px;">GitHub Repository</a>
+            </div>
+
+            <div id="instructions-chrome" class="browser-instructions active">
+                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
+                    <strong>extension</strong> folder. Delete the other folder and store somewhere safe.</div>
+                <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
+                    <strong>Developer Mode</strong>.</div>
+                <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the folder.
+                </div>
+            </div>
+
+            <div id="instructions-firefox" class="browser-instructions">
+                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
+                    <strong>extension</strong> folder. Delete the other folder and store somewhere safe.</div>
+                <div class="step"><strong>Step 3:</strong> Visit <code>about:debugging#/runtime/this-firefox</code> in
+                    your URL bar.</div>
+                <div class="step"><strong>Step 4:</strong> Click <strong>Load Temporary Add-on...</strong> and select
+                    the <code>manifest.json</code> inside the folder.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-disclaimer">
+            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
+                Century-Tech Limited.</p>
+            <p style="margin-top: 16px; opacity: 0.6;">DonkeyBot. Educational Purposes Only.</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchBrowser(browser) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.browser-instructions').forEach(inst => inst.classList.remove('active'));
+
+            const targetBtn = document.querySelector(`.tab-btn.${browser}`);
+            targetBtn.classList.add('active');
+            document.getElementById(`instructions-${browser}`).classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

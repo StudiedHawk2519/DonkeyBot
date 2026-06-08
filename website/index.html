@@ -5,472 +5,620 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>donkeybot | Making homework bearable</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            --db-primary: #111111;
             --db-accent: #ff6b6b;
-            --db-dark: #22153d;
-            --db-bg: #f8f9fa;
+            --db-bg: #f9fafb;
             --db-white: #ffffff;
-            --db-gray: #f0f0f0;
-            --db-accent-dark: #ee5253;
-            --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
+            --db-text-muted: #666666;
+            --db-border: rgba(0, 0, 0, 0.08);
+            --db-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+            --db-shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.04);
+            --db-radius-sm: 8px;
+            --db-radius-md: 16px;
+            --db-radius-lg: 24px;
+        }
+
+        /* View transitions for smooth page-to-page navigation animations */
+        @view-transition {
+            navigation: auto;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--db-bg);
-            color: var(--db-dark);
-            line-height: 1.6;
+            color: var(--db-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* ... Navigation and Header styles remain the same ... */
+        /* Modern Halftone Dotted Background Overlays */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+            background-size: 16px 16px;
+            mask-image: radial-gradient(circle at 50% 50%, white, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, white, transparent 80%);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating Capsule Navigation (Synchronized with install.html layout) */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
         nav {
-            padding: 20px 5%;
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--db-border);
+            padding: 12px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--db-white);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-radius: 40px;
+            box-shadow: var(--db-shadow-sm);
         }
 
         .logo {
-            font-family: var(--db-ugly);
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--db-dark);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--db-primary);
             text-decoration: none;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
             color: var(--db-accent);
-            font-family: var(--db-ugly);
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--db-text-muted);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--db-primary);
+        }
+
+        .nav-links .btn-nav {
+            background: var(--db-primary);
+            color: var(--db-white);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .nav-links .btn-nav:hover {
+            background: #252525;
+            color: var(--db-white);
+        }
+
+        /* Two-Column Modern Hero Layout */
         header {
-            background-color: #ffffff;
-            background-image: radial-gradient(var(--db-gray) 0.5px, transparent 0.5px);
-            background-size: 20px 20px;
-            padding: 120px 20px;
-            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 160px 24px 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        h1 {
-            font-family: var(--db-ugly);
-            font-size: 5rem;
-            margin-bottom: 10px;
-            font-weight: 900;
-            transform: rotate(-1deg);
+        @media (max-width: 1024px) {
+            header {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 120px;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .homework-shadow-container {
+                margin: 0 auto;
+            }
         }
 
-        h1 span {
-            color: var(--db-accent);
-            font-family: var(--db-ugly);
+        .hero-left h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
         }
 
         .tagline {
-            font-size: 1.4rem;
-            color: #555;
-            margin-bottom: 40px;
-            max-width: 750px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.1rem;
+            color: var(--db-text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
         }
 
-        /* NEW CAROUSEL STYLES */
-        #showcase {
-            padding: 80px 20px;
-            text-align: center;
-            background-color: var(--db-bg);
-            overflow: hidden;
-        }
-
-        .carousel-container {
-            position: relative;
-            max-width: 900px;
-            height: 500px;
-            margin: 50px auto;
+        .hero-actions {
             display: flex;
             align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            padding: 12px 24px;
+            border-radius: var(--db-radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
-        .carousel-item {
+        .btn-primary {
+            background: var(--db-primary);
+            color: var(--db-white);
+        }
+
+        .btn-primary:hover {
+            background: #252525;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--db-white);
+            color: var(--db-primary);
+            border: 1px solid var(--db-border);
+        }
+
+        .btn-secondary:hover {
+            background: #fdfdfd;
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Expanded Homework Component & Subtle Modern Dot-Shadow Mesh */
+        .homework-shadow-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            padding-right: 24px;
+            padding-bottom: 24px;
+        }
+
+        /* Halftone cluster shadow effect sitting on the right/bottom corner layer */
+        .homework-dot-shadow {
             position: absolute;
-            width: 100%;
-            max-width: 800px;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border: 5px solid var(--db-white);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-            background: white;
-        }
-
-        .carousel-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Stacking Logic */
-        .carousel-item.active {
-            z-index: 3;
-            transform: translateX(0) scale(1);
-            opacity: 1;
-        }
-
-        .carousel-item.next {
-            z-index: 2;
-            transform: translateX(40px) translateY(20px) scale(0.95);
-            opacity: 0.7;
-        }
-
-        .carousel-item.hidden {
+            right: 0;
+            bottom: 0;
+            width: 150px;
+            height: 150px;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
+            background-size: 8px 8px;
+            mask-image: radial-gradient(circle at 100% 100%, white, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at 100% 100%, white, transparent 70%);
+            pointer-events: none;
             z-index: 1;
-            transform: translateX(80px) translateY(40px) scale(0.9);
-            opacity: 0;
         }
 
-        /* ... Rest of the original styles ... */
+        .homework-card-actual {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            background: var(--db-white);
+            border: 1px solid var(--db-border);
+            border-radius: var(--db-radius-md);
+            box-shadow: var(--db-shadow-lg);
+            overflow: hidden;
+        }
+
+        /* Modules Section Grid */
         .module-section {
-            padding: 100px 20px;
-            max-width: 1100px;
+            padding: 80px 24px;
+            max-width: 1140px;
             margin: 0 auto;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .module-card {
             background: var(--db-white);
-            padding: 45px;
-            border-radius: 35px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            padding: 32px;
+            border-radius: var(--db-radius-md);
+            border: 1px solid var(--db-border);
+            box-shadow: var(--db-shadow-sm);
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .module-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--db-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--db-shadow-lg);
         }
 
         .module-badge {
             display: inline-block;
-            background: var(--db-accent);
-            color: white;
             padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 16px;
             align-self: flex-start;
         }
 
         .module-card h3 {
-            font-family: var(--db-ugly);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            color: var(--db-dark);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .module-card p {
-            color: #666;
+            color: var(--db-text-muted);
+            font-size: 14px;
             flex-grow: 1;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            line-height: 1.5;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 14px 40px;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            background: var(--db-accent);
-            color: white;
-            border-bottom: 4px solid var(--db-accent-dark);
-            text-align: center;
-            font-family: var(--db-ugly);
-        }
-
-        #install {
-            padding: 100px 20px;
-            background: white;
-        }
-
-        .install-box {
-            background: var(--db-bg);
-            padding: 50px;
-            border-radius: 35px;
-            border-left: 10px solid var(--db-accent);
-            max-width: 850px;
+        /* Modernized Interface Grid Showcase */
+        #showcase {
+            padding: 80px 24px;
+            max-width: 1140px;
             margin: 0 auto;
-            transition: border-color 0.2s ease;
         }
 
-        /* TABS UI STYLES */
-        .install-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .showcase-header {
+            text-align: center;
             margin-bottom: 40px;
         }
 
-        .tab-btn {
-            padding: 12px 35px;
-            font-family: var(--db-ugly);
-            font-size: 1.1rem;
+        .showcase-header h2 {
+            font-size: 2.2rem;
             font-weight: 700;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: white;
-            opacity: 0.5;
-            background: var(--db-accent);
-            border-bottom: 4px solid var(--db-accent-dark);
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
         }
 
-        .tab-btn.active {
-            opacity: 1;
-            transform: translateY(2px);
-            border-bottom-width: 2px;
+        .showcase-header p {
+            color: var(--db-text-muted);
+            font-size: 15px;
         }
 
-        .browser-instructions {
-            display: none;
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
-        .browser-instructions.active {
+        @media (max-width: 900px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .showcase-item {
+            background: var(--db-white);
+            border: 1px solid var(--db-border);
+            border-radius: var(--db-radius-md);
+            overflow: hidden;
+            box-shadow: var(--db-shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .showcase-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--db-shadow-lg);
+        }
+
+        .showcase-item img {
+            width: 100%;
+            height: auto;
             display: block;
+            border-bottom: 1px solid var(--db-border);
         }
 
-        .step {
-            margin-bottom: 25px;
-            font-size: 1.1rem;
+        .showcase-caption {
+            padding: 16px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--db-primary);
+            background: var(--db-white);
         }
 
-        .step strong {
-            color: var(--db-accent);
-            font-family: var(--db-ugly);
+        /* Premium CTA Strip */
+        .cta-banner-container {
+            max-width: 1140px;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
         }
 
+        .cta-banner {
+            background: #09090b;
+            border-radius: var(--db-radius-lg);
+            padding: 60px 40px;
+            text-align: left;
+            color: var(--db-white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--db-shadow-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cta-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+            background-size: 14px 14px;
+            mask-image: radial-gradient(circle at 90% 50%, white, transparent 65%);
+            -webkit-mask-image: radial-gradient(circle at 90% 50%, white, transparent 65%);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 550px;
+        }
+
+        .cta-banner h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-banner p {
+            color: #a1a1aa;
+            font-size: 14px;
+        }
+
+        /* Simplified Clean Footer */
         footer {
-            padding: 100px 10%;
-            background: var(--db-dark);
-            color: white;
-            font-size: 0.85rem;
+            padding: 60px 24px;
+            background: var(--db-white);
+            border-top: 1px solid var(--db-border);
             text-align: center;
-            margin-top: 0;
-            /* Fixed: Removed the gray strip by eliminating top margin */
+            font-size: 13px;
+            color: var(--db-text-muted);
         }
 
-        .footer-brand {
-            font-family: var(--db-ugly);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            display: block;
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--db-primary);
+            margin-bottom: 6px;
+        }
+
+        .footer-disclaimer {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
     </style>
 </head>
 
 <body>
 
-    <nav>
-        <a href="index.html" class="logo">donkey<span>bot</span></a>
-        <div class="nav-links" style="display: flex; gap: 30px;">
-            <a href="index.html"
-                style="text-decoration: none; color: var(--db-dark); font-weight: 700; border-bottom: 3px solid var(--db-accent);">Home</a>
-            <a href="ai.html"
-                style="text-decoration: none; color: var(--db-dark); font-weight: 700; opacity: 0.6; transition: 0.3s;"
-                onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Mule AI</a>
-        </div>
-    </nav>
+    <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="logo">donkey<span>bot</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#modules">Suite</a>
+                <a href="install.html" class="btn-nav">Download</a>
+            </div>
+        </nav>
+    </div>
 
     <header>
-        <div class="container">
-            <h1>donkey<span>bot</span></h1>
-            <p class="tagline">Make your homework bearable with Donkeybot. A chrome/firefox extension that works for
-                most major homework platforms.</p>
-            <a href="#install" class="btn" style="padding: 18px 60px; font-size: 1.1rem;">Download Now</a>
+        <div class="hero-left">
+            <h1>Homework, done for you.</h1>
+            <p class="tagline">Tired of homework? We've got you covered. From instant image solvers, to entire
+                auto-solvers. Start for free today. Over 7+ platforms supported.</p>
+            <div class="hero-actions">
+                <a href="install.html" class="btn btn-primary" style="border-radius: 30px; padding: 12px 28px;">Get
+                    started ↗</a>
+                <a href="#modules" class="btn btn-secondary">See Suite</a>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="homework-shadow-container">
+                <div class="homework-dot-shadow"></div>
+                <div class="homework-card-actual">
+                    <div
+                        style="position: relative; display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--db-border);">
+                        <div
+                            style="position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background-color: #f97316;">
+                        </div>
+                        <div
+                            style="display: flex; width: 20px; height: 20px; align-items: center; justify-content: center; color: #2563eb; transform: rotate(180deg);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg>
+                        </div>
+                        <h3 style="flex: 1; font-size: 14px; font-weight: 700; color: #1e3a8a; text-align: left;">
+                            Homework due Wednesday 6th May 8am</h3>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; color: #6b7280; white-space: nowrap;">Bookwork</span>
+                            <span style="height: 16px; width: 1px; background-color: var(--db-border);"></span>
+                            <span style="font-size: 14px; font-weight: 700; color: #16a34a;">100%</span>
+                        </div>
+                    </div>
+
+                    <div style="padding: 12px 24px 20px 24px;">
+                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+                            <li
+                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                                <span style="font-size: 13px; color: #1f2937;">1. Mixed topic practice</span>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                                    <span
+                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                        ✓</span>
+                                </div>
+                            </li>
+                            <li
+                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                                <span style="font-size: 13px; color: #1f2937;">2. Mixed topic practice</span>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                                    <span
+                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                        ✓</span>
+                                </div>
+                            </li>
+                            <li
+                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                                <span style="font-size: 13px; color: #1f2937;">3. Mixed topic practice</span>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                                    <span
+                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                        ✓</span>
+                                </div>
+                            </li>
+                            <li
+                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                                <span style="font-size: 13px; color: #1f2937;">4. Finding the surface area of
+                                    frustums</span>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                                    <span
+                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                        ✓</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
     <section id="modules" class="module-section">
-        <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 60px;">The Suite</h2>
         <div class="grid">
-            <div class="module-card" style="--db-accent: #0066cc; --db-accent-dark: #004a94;">
-                <span class="module-badge" style="background: #0066cc;">Sparx Maths</span>
+            <div class="module-card">
+                <span class="module-badge" style="background: #e0f2fe; color: #0369a1;">Sparx Maths</span>
                 <h3>Embers</h3>
-                <p>Adds an ai button to Sparx Maths. Because after Sparx sets your brain on fire, these answers are the
-                    only things left in the ashes (epic joke)!</p>
-                <a href="#install" class="btn" style="background: #0066cc; border-color: #004a94;">Add to Chrome</a>
+                <p>Adds an ai button to Sparx Maths. Instantly calculate textbook equations directly from your active
+                    browser viewports.</p>
+                <a href="install.html" class="btn btn-secondary">Add to Chrome</a>
             </div>
 
             <div class="module-card">
-                <span class="module-badge">LanguageNut</span>
+                <span class="module-badge" style="background: #fee2e2; color: #b91c1c;">LanguageNut</span>
                 <h3>LanguageNot</h3>
-                <p>Works for any multiple choice languagenut tasks. Intercepts network requests for instant and 100%
-                    correct answers :)</p>
-                <a href="#showcase" class="btn">See it in action</a>
+                <p>Works for any multiple choice languagenut tasks. Intercepts network requests for instant processing
+                    data cycles.</p>
+                <a href="#showcase" class="btn btn-secondary">See it in action</a>
             </div>
 
-            <div class="module-card" style="--db-accent: rgb(11, 172, 254); --db-accent-dark: #0984e3;">
-                <span class="module-badge" style="background: rgb(11, 172, 254);">Century Tech</span>
+            <div class="module-card">
+                <span class="module-badge" style="background: #e0e7ff; color: #4338ca;">Century Tech</span>
                 <h3>Decade</h3>
-                <p>Make your homework 10x faster because your homework shouldn't take a century (joke)! Adds an AI
-                    button to the sidebar on Century.</p>
-                <a href="#install" class="btn" style="background: rgb(11, 172, 254); border-color: #0984e3;">Try it
-                    out</a>
+                <p>Make your modules 10x faster because tasks should not require an entire era. Adds an AI processing
+                    suite inside context dashboards.</p>
+                <a href="install.html" class="btn btn-secondary">Try it out</a>
             </div>
         </div>
     </section>
 
     <section id="showcase">
-        <h2 style="font-family: var(--db-ugly); font-size: 2.5rem; margin-bottom: 40px;">Look at it go!</h2>
-        <div class="carousel-container" id="carousel">
+        <div class="showcase-header">
+            <h2>Platform Architecture</h2>
+            <p>Sleek optimization panels configured for native background execution.</p>
         </div>
-        <p style="font-size: 0.9rem; color: #888; margin-top: 20px;">Click the image to flip through</p>
-    </section>
-
-    <section id="install">
-        <div class="container">
-            <h2 style="text-align:center; font-size: 2.8rem; margin-bottom: 50px;">Installation Guide</h2>
-
-            <div class="install-tabs">
-                <button class="tab-btn chrome active" onclick="switchBrowser('chrome')">Chrome</button>
-                <button class="tab-btn firefox" onclick="switchBrowser('firefox')">Firefox</button>
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <img src="assets/languagenot.png" alt="LanguageNot Interface">
+                <div class="showcase-caption">LanguageNot Dashboard Integration</div>
             </div>
-
-            <div class="install-box">
-                <div class="step">
-                    <strong>Step 1: Download files.</strong>
-                    <p style="margin: 10px 0 20px 0;">Get the latest code from GitHub by clicking the green button and
-                        <strong>"download zip"</strong>.
-                    </p>
-                    <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn"
-                        style="background: #333; border-color: #111;">GitHub Repository</a>
-                </div>
-
-                <div id="instructions-chrome" class="browser-instructions active">
-                    <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                        <strong>extension</strong> folder. Delete the other folder and store somewhere safe.
-                    </div>
-                    <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
-                        <strong>Developer Mode</strong>.
-                    </div>
-                    <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the
-                        folder.
-                    </div>
-                </div>
-
-                <div id="instructions-firefox" class="browser-instructions">
-                    <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                        <strong>extension</strong> folder. Delete the other folder and store somewhere safe.
-                    </div>
-                    <div class="step"><strong>Step 3:</strong> Visit <code>about:debugging#/runtime/this-firefox</code>
-                        in your URL bar.
-                    </div>
-                    <div class="step"><strong>Step 4:</strong> Click <strong>Load Temporary Add-on...</strong> and
-                        select the <code>manifest.json</code> inside the folder.
-                    </div>
-                </div>
-
+            <div class="showcase-item">
+                <img src="assets/decade.png" alt="Decade Interface">
+                <div class="showcase-caption">Decade Analytics Overlays</div>
+            </div>
+            <div class="showcase-item">
+                <img src="assets/embers.png" alt="Embers Interface">
+                <div class="showcase-caption">Embers Active Solvers Module</div>
             </div>
         </div>
     </section>
+
+    <div class="cta-banner-container">
+        <div class="cta-banner">
+            <div class="cta-content">
+                <h2>Ready to start?</h2>
+                <p>Start for free today, Use it for yourself tomorrow, resell it to your friends in a week.</p>
+            </div>
+            <a href="install.html" class="btn btn-secondary"
+                style="border-radius: 30px; font-size: 14px; white-space: nowrap; padding: 12px 28px;">Get Started ↗</a>
+        </div>
+    </div>
 
     <footer>
-        <span class="footer-brand">donkeybot</span>
         <div class="footer-disclaimer">
+            <div class="footer-logo">donkeybot</div>
+            <p style="margin-bottom: 12px; opacity: 0.8;">Making homework bearable.</p>
             <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
                 Century-Tech Limited.</p>
-            <p style="margin-top: 30px; opacity: 0.5;">DonkeyBot. Educational Purposes Only.</p>
+            <p style="margin-top: 16px; opacity: 0.6;">DonkeyBot. Educational Purposes Only.</p>
         </div>
     </footer>
-
-    <script>
-        // List your images here with the prefix 'image:'
-        // Note: You must manually list them here because browser JS cannot read folder contents
-        const images = [
-            'assets/languagenot.png',
-            'assets/decade.png',
-            'assets/embers.png'
-        ];
-
-        const carousel = document.getElementById('carousel');
-        let currentIndex = 0;
-
-        function initCarousel() {
-            carousel.innerHTML = '';
-            images.forEach((src, index) => {
-                const div = document.createElement('div');
-                div.className = 'carousel-item';
-                div.innerHTML = `<img src="${src}" alt=\"Screenshot ${index}\">`;
-                div.onclick = nextSlide;
-                carousel.appendChild(div);
-            });
-            updateSlides();
-        }
-
-        function updateSlides() {
-            const items = document.querySelectorAll('.carousel-item');
-            items.forEach((item, index) => {
-                item.classList.remove('active', 'next', 'hidden');
-
-                if (index === currentIndex) {
-                    item.classList.add('active');
-                } else if (index === (currentIndex + 1) % items.length) {
-                    item.classList.add('next');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateSlides();
-        }
-
-        initCarousel();
-
-        // Dynamic Browser Selection Logic
-        function switchBrowser(browser) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.browser-instructions').forEach(inst => inst.classList.remove('active'));
-
-            if (browser === 'chrome') {
-                document.querySelector('.tab-btn.chrome').classList.add('active');
-                document.getElementById('instructions-chrome').classList.add('active');
-            } else if (browser === 'firefox') {
-                document.querySelector('.tab-btn.firefox').classList.add('active');
-                document.getElementById('instructions-firefox').classList.add('active');
-            }
-        }
-    </script>
 </body>
 
 </html>
