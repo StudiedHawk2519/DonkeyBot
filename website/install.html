@@ -21,7 +21,6 @@
             --db-radius-lg: 24px;
         }
 
-        /* View transitions for smooth page-to-page gliding navigation */
         @view-transition {
             navigation: auto;
         }
@@ -36,7 +35,6 @@
 
         body {
             background-color: var(--db-bg);
-            /* Consistent structural background configurations across both documents */
             background-image:
                 radial-gradient(rgba(0, 0, 0, 0.03) 1.5px, transparent 1.5px),
                 radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.04), transparent 40%),
@@ -47,7 +45,6 @@
             overflow-x: hidden;
         }
 
-        /* Floating Capsule Navigation */
         .nav-wrapper {
             position: fixed;
             top: 20px;
@@ -110,9 +107,10 @@
             padding: 8px 20px;
             border-radius: 20px;
             font-size: 14px;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        /* Large Download Banner Header */
         header {
             padding: 160px 24px 60px 24px;
             max-width: 1140px;
@@ -146,7 +144,6 @@
             margin-right: auto;
         }
 
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -181,7 +178,6 @@
             transform: translateY(-2px);
         }
 
-        /* Installation Instructions Area */
         .install-section {
             padding: 40px 24px 100px 24px;
             max-width: 1140px;
@@ -267,11 +263,11 @@
             margin-bottom: 0;
         }
 
+        /* Fixed display formatting from block to inline to avoid the line break issue */
         .step strong {
             color: var(--db-primary);
-            display: block;
-            font-size: 16px;
-            margin-bottom: 6px;
+            display: inline;
+            font-size: 15px;
         }
 
         code {
@@ -317,8 +313,8 @@
             <h1>Get DonkeyBot</h1>
             <p>Make your homework bearable. Download the latest release package below and follow the easy integration
                 guide for your browser.</p>
-            <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-accent">Download
-                Extension package (.zip)</a>
+            <a href="https://github.com/DonkeyBot" target="_blank" class="btn btn-accent">Download Extension package
+                (.zip)</a>
         </div>
     </header>
 
@@ -330,37 +326,54 @@
 
         <div class="install-box">
             <div class="step">
-                <strong>Step 1: Download files.</strong>
-                <p style="margin-top: 4px; color: var(--db-text-muted);">Get the latest code from GitHub by clicking the
-                    green button and <strong>"download zip"</strong>.</p>
-                <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-primary"
+                <strong>Step 1: Download files.</strong> Get the latest code from GitHub by clicking the green button
+                and <strong>"download zip"</strong>.
+                <br>
+                <a href="https://github.com/DonkeyBot" target="_blank" class="btn btn-primary"
                     style="margin-top: 16px; font-size: 14px; padding: 10px 20px;">GitHub Repository</a>
             </div>
 
             <div id="instructions-chrome" class="browser-instructions active">
-                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                    <strong>extension</strong> folder. Delete the other folder and store somewhere safe.</div>
-                <div class="step"><strong>Step 3:</strong> Visit <code>chrome://extensions</code> and enable
-                    <strong>Developer Mode</strong>.</div>
-                <div class="step"><strong>Step 4:</strong> Click <strong>Load unpacked</strong> and select the folder.
+                <div class="step">
+                    <strong>Step 2: Unzip the package.</strong> Extract the downloaded <code>.zip</code> file and locate
+                    the <strong>extension</strong> folder. You can safely delete the other archive components and store
+                    this folder somewhere permanent.
+                </div>
+                <div class="step">
+                    <strong>Step 3: Open Extension Configurations.</strong> Open a new browser tab, visit
+                    <code>chrome://extensions</code> in your URL bar, and toggle on <strong>Developer Mode</strong> in
+                    the top-right corner.
+                </div>
+                <div class="step">
+                    <strong>Step 4: Load Extension Panel.</strong> Click the <strong>Load unpacked</strong> button in
+                    the top-left corner, then select your extracted <strong>extension</strong> folder to complete
+                    installation.
                 </div>
             </div>
 
             <div id="instructions-firefox" class="browser-instructions">
-                <div class="step"><strong>Step 2:</strong> Extract the <code>.zip</code> and locate the
-                    <strong>extension</strong> folder. Delete the other folder and store somewhere safe.</div>
-                <div class="step"><strong>Step 3:</strong> Visit <code>about:debugging#/runtime/this-firefox</code> in
-                    your URL bar.</div>
-                <div class="step"><strong>Step 4:</strong> Click <strong>Load Temporary Add-on...</strong> and select
-                    the <code>manifest.json</code> inside the folder.</div>
+                <div class="step">
+                    <strong>Step 2: Unzip the package.</strong> Extract the downloaded <code>.zip</code> file and locate
+                    the <strong>extension</strong> folder. You can safely delete the other archive components and store
+                    this folder somewhere permanent.
+                </div>
+                <div class="step">
+                    <strong>Step 3: Open Runtime Debugger.</strong> Open a new browser tab, type
+                    <code>about:debugging#/runtime/this-firefox</code> into your URL bar, and hit Enter.
+                </div>
+                <div class="step">
+                    <strong>Step 4: Load Manifest File.</strong> Click on <strong>Load Temporary Add-on...</strong>,
+                    navigate inside your extracted folder, and choose the <code>manifest.json</code> configuration file
+                    to complete setup.
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-disclaimer">
-            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd or
-                Century-Tech Limited.</p>
+            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd, Century-Tech
+                Limited, or Sparx Ltd.</p>
             <p style="margin-top: 16px; opacity: 0.6;">DonkeyBot. Educational Purposes Only.</p>
         </div>
     </footer>
