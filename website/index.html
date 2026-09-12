@@ -4,24 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>donkeybot | Making homework bearable</title>
+    <title>donkeybot for sparx</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --db-primary: #111111;
-            --db-accent: #ff6b6b;
-            --db-bg: #f9fafb;
+            --db-bg: #060606;
+            --db-surface: #101010;
             --db-white: #ffffff;
-            --db-text-muted: #666666;
-            --db-border: rgba(0, 0, 0, 0.08);
-            --db-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
-            --db-shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.04);
+            --db-accent: #ff6b6b;
+            --db-text: #ededed;
+            --db-text-muted: #8a8a8a;
+            --db-border: rgba(255, 255, 255, 0.09);
             --db-radius-sm: 8px;
             --db-radius-md: 16px;
-            --db-radius-lg: 24px;
+            --db-radius-lg: 22px;
         }
 
-        /* View transitions for smooth page-to-page navigation animations */
         @view-transition {
             navigation: auto;
         }
@@ -36,30 +34,17 @@
 
         body {
             background-color: var(--db-bg);
-            color: var(--db-primary);
-            line-height: 1.5;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 22px 22px;
+            color: var(--db-text);
+            line-height: 1.55;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Modern Halftone Dotted Background Overlays */
-        body::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px);
-            background-size: 16px 16px;
-            mask-image: radial-gradient(circle at 50% 50%, white, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at 50% 50%, white, transparent 80%);
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Floating Capsule Navigation (Synchronized with install.html layout) */
+        /* floating header, three sections */
         .nav-wrapper {
             position: fixed;
-            top: 20px;
+            top: 18px;
             left: 0;
             width: 100%;
             display: flex;
@@ -69,113 +54,78 @@
         }
 
         nav {
-            width: 100%;
-            max-width: 1100px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(16, 16, 16, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--db-border);
-            padding: 12px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 40px;
-            box-shadow: var(--db-shadow-sm);
+            padding: 6px;
+            border-radius: 30px;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--db-primary);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--db-accent);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .nav-links a {
+        nav a {
             text-decoration: none;
             color: var(--db-text-muted);
             font-weight: 500;
-            font-size: 14px;
-            transition: color 0.2s ease;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 22px;
+            transition: color 0.2s ease, background 0.2s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--db-primary);
+        nav a:hover {
+            color: var(--db-text);
         }
 
-        .nav-links .btn-nav {
-            background: var(--db-primary);
-            color: var(--db-white);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.2s ease;
+        nav a.current {
+            color: var(--db-bg);
+            background: var(--db-text);
         }
 
-        .nav-links .btn-nav:hover {
-            background: #252525;
-            color: var(--db-white);
+        nav a.nav-accent {
+            color: var(--db-bg);
+            background: var(--db-accent);
         }
 
-        /* Two-Column Modern Hero Layout */
+        nav a.nav-accent:hover {
+            color: var(--db-bg);
+        }
+
+        /* hero */
         header {
-            position: relative;
-            z-index: 1;
-            padding: 160px 24px 100px 24px;
-            max-width: 1200px;
+            padding: 170px 24px 40px 24px;
+            max-width: 700px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 60px;
-            align-items: center;
+            text-align: center;
         }
 
-        @media (max-width: 1024px) {
-            header {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding-top: 120px;
-            }
-
-            .hero-actions {
-                justify-content: center;
-            }
-
-            .homework-shadow-container {
-                margin: 0 auto;
-            }
+        .eyebrow {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--db-accent);
+            margin-bottom: 18px;
         }
 
-        .hero-left h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
+        header h1 {
+            font-size: 3rem;
+            font-weight: 600;
             line-height: 1.15;
-            letter-spacing: -1.5px;
-            margin-bottom: 20px;
+            letter-spacing: -1.2px;
+            margin-bottom: 18px;
         }
 
-        .tagline {
-            font-size: 1.1rem;
+        header .tagline {
+            font-size: 1.05rem;
             color: var(--db-text-muted);
-            margin-bottom: 32px;
-            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto 34px auto;
         }
 
         .hero-actions {
             display: flex;
-            align-items: center;
+            justify-content: center;
             gap: 12px;
         }
 
@@ -183,51 +133,51 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 24px;
-            border-radius: var(--db-radius-sm);
+            padding: 13px 26px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
             transition: all 0.2s ease;
+            border: 1px solid transparent;
         }
 
         .btn-primary {
-            background: var(--db-primary);
-            color: var(--db-white);
+            background: var(--db-accent);
+            color: #1a0505;
         }
 
         .btn-primary:hover {
-            background: #252525;
+            background: #ff8484;
             transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: var(--db-white);
-            color: var(--db-primary);
+            background: transparent;
+            color: var(--db-text);
             border: 1px solid var(--db-border);
         }
 
         .btn-secondary:hover {
-            background: #fdfdfd;
-            border-color: rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
-        /* Expanded Homework Component & Subtle Modern Dot-Shadow Mesh */
+        /* homework demo card (unchanged from the original design) */
         .homework-shadow-container {
             position: relative;
             width: 100%;
             max-width: 650px;
-            padding-right: 24px;
-            padding-bottom: 24px;
+            margin: 60px auto 100px auto;
+            padding: 0 24px 24px 24px;
         }
 
         .homework-dot-shadow {
             position: absolute;
-            right: 0;
+            right: 24px;
             bottom: 0;
             width: 150px;
             height: 150px;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
+            background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px);
             background-size: 8px 8px;
             mask-image: radial-gradient(circle at 100% 100%, white, transparent 70%);
             -webkit-mask-image: radial-gradient(circle at 100% 100%, white, transparent 70%);
@@ -240,253 +190,58 @@
             z-index: 2;
             width: 100%;
             background: var(--db-white);
-            border: 1px solid var(--db-border);
             border-radius: var(--db-radius-md);
-            box-shadow: var(--db-shadow-lg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
             overflow: hidden;
         }
 
-        /* Refined Modules Section Box Layout (Varied Dark Colors, No Reviews Elements) */
-        .module-section {
-            padding: 80px 24px;
-            max-width: 1140px;
+        /* tools */
+        #tools {
+            max-width: 700px;
             margin: 0 auto;
+            padding: 20px 24px 100px 24px;
         }
 
-        .review-style-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            padding: 20px 0;
-        }
-
-        .review-style-card {
-            border-radius: 16px;
-            padding: 36px 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 290px;
-            color: #ffffff;
-            box-shadow: var(--db-shadow-lg);
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .review-style-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .review-style-card h3 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            line-height: 1.3;
-            color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
-        }
-
-        .review-style-card p {
-            font-size: 0.9rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: #cbd5e1;
-            margin-bottom: 28px;
-            flex-grow: 1;
-        }
-
-        /* Color Variations Inspired by the Reference Image Concepts */
-        .sparx-gradient {
-            background: linear-gradient(145deg, #223454 0%, #192847 100%);
-        }
-
-        .languagenut-gradient {
-            background: linear-gradient(145deg, #2f2015 0%, #4b3628 100%);
-        }
-
-        .century-gradient {
-            background: linear-gradient(145deg, #2c2551 0%, #1c1636 100%);
-        }
-
-        .module-badge {
-            align-self: flex-start;
-            font-size: 11px;
+        #tools h2 {
+            font-size: 1.6rem;
             font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            letter-spacing: 0.3px;
-        }
-
-        .badge-sparx {
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
-        }
-
-        .badge-lang {
-            background: rgba(251, 146, 60, 0.15);
-            color: #fb923c;
-        }
-
-        .badge-century {
-            background: rgba(129, 140, 248, 0.15);
-            color: #818cf8;
-        }
-
-        .card-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .module-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .module-action-link {
-            font-size: 13px;
-            font-weight: 500;
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .review-style-card:hover .module-action-link {
-            color: #ffffff;
-        }
-
-        /* Modernized Interface Grid Showcase */
-        #showcase {
-            padding: 80px 24px;
-            max-width: 1140px;
-            margin: 0 auto;
-        }
-
-        .showcase-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .showcase-header h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
-        .showcase-header p {
-            color: var(--db-text-muted);
-            font-size: 15px;
-        }
-
-        .showcase-grid {
+        .tool-row {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 90px 1fr;
             gap: 20px;
+            padding: 24px 0;
+            border-top: 1px solid var(--db-border);
         }
 
-        @media (max-width: 900px) {
-            .showcase-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .showcase-item {
-            background: var(--db-white);
-            border: 1px solid var(--db-border);
-            border-radius: var(--db-radius-md);
-            overflow: hidden;
-            box-shadow: var(--db-shadow-sm);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .showcase-item:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--db-shadow-lg);
-        }
-
-        .showcase-item img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .tool-row:last-child {
             border-bottom: 1px solid var(--db-border);
         }
 
-        .showcase-caption {
-            padding: 16px 20px;
+        .tool-row .num {
+            color: var(--db-text-muted);
+            font-size: 13px;
+        }
+
+        .tool-row h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .tool-row p {
             font-size: 14px;
-            font-weight: 500;
-            color: var(--db-primary);
-            background: var(--db-white);
+            color: var(--db-text-muted);
+            max-width: 420px;
         }
 
-        /* Premium CTA Strip */
-        .cta-banner-container {
-            max-width: 1140px;
-            margin: 40px auto 80px auto;
-            padding: 0 24px;
-        }
-
-        .cta-banner {
-            background: #09090b;
-            border-radius: var(--db-radius-lg);
-            padding: 60px 40px;
-            text-align: left;
-            color: var(--db-white);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--db-shadow-lg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .cta-banner {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        .cta-banner::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-            background-size: 14px 14px;
-            mask-image: radial-gradient(circle at 90% 50%, white, transparent 65%);
-            -webkit-mask-image: radial-gradient(circle at 90% 50%, white, transparent 65%);
-            opacity: 0.8;
-            pointer-events: none;
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 2;
-            max-width: 550px;
-        }
-
-        .cta-banner h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .cta-banner p {
-            color: #a1a1aa;
-            font-size: 14px;
-        }
-
-        /* Simplified Clean Footer */
+        /* footer */
         footer {
-            padding: 60px 24px;
-            background: var(--db-white);
+            padding: 50px 24px;
             border-top: 1px solid var(--db-border);
             text-align: center;
             font-size: 13px;
@@ -494,16 +249,32 @@
         }
 
         .footer-logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--db-primary);
-            margin-bottom: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--db-text);
+            margin-bottom: 10px;
         }
 
         .footer-disclaimer {
-            max-width: 700px;
+            max-width: 560px;
             margin: 0 auto;
             line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            nav a {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .tool-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
         }
     </style>
 </head>
@@ -512,196 +283,140 @@
 
     <div class="nav-wrapper">
         <nav>
-            <a href="index.html" class="logo">donkey<span>bot</span></a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="#modules">Suite</a>
-                <a href="install.html" class="btn-nav">Download</a>
-            </div>
+            <a href="index.html" class="current">home</a>
+            <a href="#tools">tools</a>
+            <a href="install.html" class="nav-accent">install</a>
         </nav>
     </div>
 
     <header>
-        <div class="hero-left">
-            <h1>Homework, not done by you.</h1>
-            <p class="tagline">Tired of homework? Then don't do it! Instead, let donkeybot do the work for you.
-                Currently home to 3+ helpers and even auto-solvers.</p>
-            <div class="hero-actions">
-                <a href="install.html" class="btn btn-primary" style="border-radius: 30px; padding: 12px 28px;">Get
-                    started ↗</a>
-                <a href="#modules" class="btn btn-secondary">See Other Stuff</a>
-            </div>
-        </div>
-
-        <div class="hero-right">
-            <div class="homework-shadow-container">
-                <div class="homework-dot-shadow"></div>
-                <div class="homework-card-actual">
-                    <div
-                        style="position: relative; display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--db-border);">
-                        <div
-                            style="position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background-color: #f97316;">
-                        </div>
-                        <div
-                            style="display: flex; width: 20px; height: 20px; align-items: center; justify-content: center; color: #2563eb; transform: rotate(180deg);">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="m6 9 6 6 6-6" />
-                            </svg>
-                        </div>
-                        <h3 style="flex: 1; font-size: 14px; font-weight: 700; color: #1e3a8a; text-align: left;">
-                            Homework due Wednesday 6th May 8am</h3>
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 13px; color: #6b7280; white-space: nowrap;">Bookwork</span>
-                            <span style="height: 16px; width: 1px; background-color: var(--db-border);"></span>
-                            <span style="font-size: 14px; font-weight: 700; color: #16a34a;">100%</span>
-                        </div>
-                    </div>
-
-                    <div style="padding: 12px 24px 20px 24px;">
-                        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
-                            <li
-                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
-                                <span style="font-size: 13px; color: #1f2937;">1. Mixed topic practice</span>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
-                                    <span
-                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
-                                        ✓</span>
-                                </div>
-                            </li>
-                            <li
-                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
-                                <span style="font-size: 13px; color: #1f2937;">2. Mixed topic practice</span>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
-                                    <span
-                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
-                                        ✓</span>
-                                </div>
-                            </li>
-                            <li
-                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
-                                <span style="font-size: 13px; color: #1f2937;">3. Mixed topic practice</span>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
-                                    <span
-                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
-                                        ✓</span>
-                                </div>
-                            </li>
-                            <li
-                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
-                                <span style="font-size: 13px; color: #1f2937;">4. Finding the surface area of
-                                    frustums</span>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
-                                    <span
-                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
-                                        ✓</span>
-                                </div>
-                            </li>
-                            <li
-                                style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
-                                <span style="font-size: 13px; color: #1f2937;">5. Don't even bother with this
-                                    one...</span>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
-                                    <span
-                                        style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
-                                        ✓</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <span class="eyebrow">donkeybot for sparx</span>
+        <h1>sparx maths, but a bit better maybe.</h1>
+        <p class="tagline">a small browser extension that adds ai solvers, dark mode, a calculator, and other bits and
+            bobs to your least favourite homework.</p>
+        <div class="hero-actions">
+            <a href="install.html" class="btn btn-primary">install it ↗</a>
+            <a href="#tools" class="btn btn-secondary">see what's inside</a>
         </div>
     </header>
 
-    <section id="modules" class="module-section">
-        <div class="review-style-grid">
-            <div class="review-style-card sparx-gradient">
-                <div>
-                    <span class="module-badge badge-sparx">Sparx Maths</span>
-                    <h3>Embers</h3>
-                    <p>Because the answers we give you are left in the ashes after sparx burns your brain down. Adds a
-                        load of tools to sparx maths: calculator, ai, themes, and more...</p>
+    <div class="homework-shadow-container">
+        <div class="homework-dot-shadow"></div>
+        <div class="homework-card-actual">
+            <div
+                style="position: relative; display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--db-border);">
+                <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background-color: #f97316;">
                 </div>
-                <div class="card-footer">
-                    <span class="module-name">v1.4</span>
-                    <a href="install.html" class="module-action-link">Add to Chrome ↗</a>
+                <div
+                    style="display: flex; width: 20px; height: 20px; align-items: center; justify-content: center; color: #2563eb; transform: rotate(180deg);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
                 </div>
-            </div>
-
-            <div class="review-style-card languagenut-gradient">
-                <div>
-                    <span class="module-badge badge-lang">LanguageNut</span>
-                    <h3>LanguageNot</h3>
-                    <p>Does some magic to find answers instantly.
-                        always correct. Also, compatibility for more tasks coming soon!</p>
-                </div>
-                <div class="card-footer">
-                    <span class="module-name">v2.1</span>
-                    <a href="#showcase" class="module-action-link">See Showcase ↗</a>
+                <h3 style="flex: 1; font-size: 14px; font-weight: 700; color: #1e3a8a; text-align: left;">
+                    Homework due Wednesday 6th May 8am</h3>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 13px; color: #6b7280; white-space: nowrap;">Bookwork</span>
+                    <span style="height: 16px; width: 1px; background-color: var(--db-border);"></span>
+                    <span style="font-size: 14px; font-weight: 700; color: #16a34a;">100%</span>
                 </div>
             </div>
 
-            <div class="review-style-card century-gradient">
-                <div>
-                    <span class="module-badge badge-century">Century Tech</span>
-                    <h3>Decade</h3>
-                    <p>Make your homework 10 times faster because homework shouldn't take a Century (epic joke). Adds
-                        auto-answer ai to century.</p>
-                </div>
-                <div class="card-footer">
-                    <span class="module-name">v1.0</span>
-                    <a href="install.html" class="module-action-link">Install Now ↗</a>
-                </div>
+            <div style="padding: 12px 24px 20px 24px;">
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+                    <li
+                        style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                        <span style="font-size: 13px; color: #1f2937;">1. Mixed topic practice</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                            <span
+                                style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                ✓</span>
+                        </div>
+                    </li>
+                    <li
+                        style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                        <span style="font-size: 13px; color: #1f2937;">2. Mixed topic practice</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                            <span
+                                style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                ✓</span>
+                        </div>
+                    </li>
+                    <li
+                        style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                        <span style="font-size: 13px; color: #1f2937;">3. Mixed topic practice</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                            <span
+                                style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                ✓</span>
+                        </div>
+                    </li>
+                    <li
+                        style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                        <span style="font-size: 13px; color: #1f2937;">4. Finding the surface area of
+                            frustums</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                            <span
+                                style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                ✓</span>
+                        </div>
+                    </li>
+                    <li
+                        style="display: flex; align-items: center; justify-content: space-between; background: #f3f4f6; padding: 12px 16px; border-radius: 8px;">
+                        <span style="font-size: 13px; color: #1f2937;">5. Don't even bother with this
+                            one...</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 13px; font-weight: 600; color: #16a34a;">100%</span>
+                            <span
+                                style="background: white; color: #16a34a; border: 1px solid rgba(22,163,74,0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Complete
+                                ✓</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </div>
-    </section>
-
-    <section id="showcase">
-        <div class="showcase-header">
-            <h2>Look at it go!</h2>
-            <p>DonkeyBot has multiple modules for different homework sites.</p>
-        </div>
-        <div class="showcase-grid">
-            <div class="showcase-item">
-                <img src="assets/languagenot.png" alt="LanguageNot Interface">
-                <div class="showcase-caption">LanguageNut auto-solver</div>
-            </div>
-            <div class="showcase-item">
-                <img src="assets/decade.png" alt="Decade Interface">
-                <div class="showcase-caption">Decade ai for century</div>
-            </div>
-            <div class="showcase-item">
-                <img src="assets/embers.png" alt="Embers Interface">
-                <div class="showcase-caption">Loads of tools for sparx</div>
-            </div>
-        </div>
-    </section>
-
-    <div class="cta-banner-container">
-        <div class="cta-banner">
-            <div class="cta-content">
-                <h2>Ready to start?</h2>
-                <p>Donkeybot is free! Use it for yourself today, keep it for free forever.</p>
-            </div>
-            <a href="install.html" class="btn btn-secondary"
-                style="border-radius: 30px; font-size: 14px; white-space: nowrap; padding: 12px 28px;">Get Started ↗</a>
         </div>
     </div>
 
+    <section id="tools">
+        <h2>what it adds</h2>
+
+        <div class="tool-row">
+            <span class="num">01</span>
+            <div>
+                <h3>ai auto solvers</h3>
+                <p>bring your own api key and let ai do your homework for you.</p>
+            </div>
+        </div>
+
+        <div class="tool-row">
+            <span class="num">02</span>
+            <div>
+                <h3>built-in calculator</h3>
+                <p>a floating desmos calculator so that you don't need to use google or *shock horror* a real
+                    calculator.</p>
+            </div>
+        </div>
+
+        <div class="tool-row">
+            <span class="num">03</span>
+            <div>
+                <h3>dark theme and more</h3>
+                <p>probably the best dark theme you'll find for sparx. we've also got some extra ui changes (even a
+                    session timer).</p>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-disclaimer">
-            <div class="footer-logo">donkeybot</div>
-            <p style="margin-bottom: 12px; opacity: 0.8;">Making homework bearable.</p>
-            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd, Century-Tech
-                Limited, or Sparx Ltd.</p>
-            <p style="margin-top: 16px; opacity: 0.6;">DonkeyBot. Educational Purposes Only.</p>
+            <div class="footer-logo">donkeybot for sparx</div>
+            <p style="margin-bottom: 12px; opacity: 0.8;">free, open source, and easy to install.</p>
+            <p>donkeybot is an independent tool and is not affiliated with sparx ltd.</p>
         </div>
     </footer>
 </body>

@@ -4,21 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download & Install | donkeybot</title>
+    <title>install | donkeybot for sparx</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --db-primary: #111111;
-            --db-accent: #ff6b6b;
-            --db-bg: #f9fafb;
+            --db-bg: #060606;
+            --db-surface: #101010;
             --db-white: #ffffff;
-            --db-text-muted: #666666;
-            --db-border: rgba(0, 0, 0, 0.08);
-            --db-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
-            --db-shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.04);
+            --db-accent: #ff6b6b;
+            --db-text: #ededed;
+            --db-text-muted: #8a8a8a;
+            --db-border: rgba(255, 255, 255, 0.09);
             --db-radius-sm: 8px;
             --db-radius-md: 16px;
-            --db-radius-lg: 24px;
+            --db-radius-lg: 22px;
         }
 
         @view-transition {
@@ -35,19 +34,16 @@
 
         body {
             background-color: var(--db-bg);
-            background-image:
-                radial-gradient(rgba(0, 0, 0, 0.03) 1.5px, transparent 1.5px),
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.04), transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.03), transparent 50%);
-            background-size: 24px 24px, 100% 100%, 100% 100%;
-            color: var(--db-primary);
-            line-height: 1.5;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 22px 22px;
+            color: var(--db-text);
+            line-height: 1.55;
             overflow-x: hidden;
         }
 
         .nav-wrapper {
             position: fixed;
-            top: 20px;
+            top: 18px;
             left: 0;
             width: 100%;
             display: flex;
@@ -57,175 +53,126 @@
         }
 
         nav {
-            width: 100%;
-            max-width: 1100px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(16, 16, 16, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--db-border);
-            padding: 12px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 40px;
-            box-shadow: var(--db-shadow-sm);
+            padding: 6px;
+            border-radius: 30px;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--db-primary);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--db-accent);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .nav-links a {
+        nav a {
             text-decoration: none;
             color: var(--db-text-muted);
             font-weight: 500;
-            font-size: 14px;
-            transition: color 0.2s ease;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 22px;
+            transition: color 0.2s ease, background 0.2s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--db-primary);
+        nav a:hover {
+            color: var(--db-text);
         }
 
-        .nav-links .btn-nav {
-            background: var(--db-primary);
-            color: var(--db-white);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            text-decoration: none;
-            font-weight: 500;
+        nav a.current {
+            color: var(--db-bg);
+            background: var(--db-text);
+        }
+
+        nav a.nav-accent {
+            color: var(--db-bg);
+            background: var(--db-accent);
         }
 
         header {
-            padding: 160px 24px 60px 24px;
-            max-width: 1140px;
-            margin: 0 auto;
-        }
-
-        .download-banner {
-            background: #111111;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 24px 24px;
-            border-radius: var(--db-radius-lg);
-            padding: 80px 40px;
-            text-align: center;
-            color: var(--db-white);
-            box-shadow: var(--db-shadow-lg);
-        }
-
-        .download-banner h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
-        }
-
-        .download-banner p {
-            color: #cccccc;
-            font-size: 1.1rem;
-            margin-bottom: 36px;
+            padding: 170px 24px 50px 24px;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--db-accent);
+            margin-bottom: 18px;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        header p {
+            color: var(--db-text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 14px 36px;
-            border-radius: var(--db-radius-sm);
+            padding: 13px 26px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-
-        .btn-accent {
-            background: var(--db-white);
-            color: var(--db-primary);
-        }
-
-        .btn-accent:hover {
-            background: #f3f4f6;
-            transform: translateY(-2px);
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
         .btn-primary {
-            background: var(--db-primary);
-            color: var(--db-white);
+            background: var(--db-accent);
+            color: #1a0505;
         }
 
         .btn-primary:hover {
-            background: #252525;
-            transform: translateY(-2px);
+            background: #ff8484;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--db-text);
+            border: 1px solid var(--db-border);
+            margin-top: 14px;
+            font-size: 13px;
+            padding: 10px 22px;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .install-section {
-            padding: 40px 24px 100px 24px;
-            max-width: 1140px;
+            padding: 20px 24px 100px 24px;
+            max-width: 620px;
             margin: 0 auto;
-        }
-
-        .install-box {
-            background: var(--db-white);
-            padding: 50px;
-            border-radius: var(--db-radius-lg);
-            border: 1px solid var(--db-border);
-            box-shadow: var(--db-shadow-sm);
-            max-width: 850px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .install-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px);
-            background-size: 12px 12px;
-            pointer-events: none;
-            border-radius: var(--db-radius-lg);
         }
 
         .install-tabs {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 48px;
-            background: #f1f3f5;
-            padding: 6px;
-            border-radius: 30px;
+            gap: 6px;
+            margin-bottom: 40px;
+            background: var(--db-surface);
+            border: 1px solid var(--db-border);
+            padding: 5px;
+            border-radius: 26px;
             width: fit-content;
             margin-left: auto;
             margin-right: auto;
-            position: relative;
-            z-index: 5;
         }
 
         .tab-btn {
-            padding: 10px 32px;
-            font-size: 14px;
+            padding: 9px 26px;
+            font-size: 13px;
             font-weight: 600;
             border: none;
             border-radius: 20px;
@@ -236,15 +183,12 @@
         }
 
         .tab-btn.active {
-            background: var(--db-white);
-            color: var(--db-primary);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            background: var(--db-text);
+            color: var(--db-bg);
         }
 
         .browser-instructions {
             display: none;
-            position: relative;
-            z-index: 5;
         }
 
         .browser-instructions.active {
@@ -252,36 +196,44 @@
         }
 
         .step {
-            margin-bottom: 32px;
-            font-size: 15px;
-            color: #333333;
-            position: relative;
-            z-index: 5;
+            display: grid;
+            grid-template-columns: 26px 1fr;
+            gap: 16px;
+            padding: 20px 0;
+            border-top: 1px solid var(--db-border);
+            font-size: 14px;
+            color: #cfcfcf;
         }
 
-        .step:last-child {
-            margin-bottom: 0;
+        .step:first-child {
+            border-top: none;
         }
 
-        /* Fixed display formatting from block to inline to avoid the line break issue */
+        .step .step-num {
+            color: var(--db-text-muted);
+            font-size: 13px;
+            padding-top: 2px;
+        }
+
         .step strong {
-            color: var(--db-primary);
-            display: inline;
-            font-size: 15px;
+            color: var(--db-text);
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
         }
 
         code {
-            background: #f1f3f5;
-            padding: 3px 6px;
+            background: var(--db-surface);
+            color: var(--db-accent);
+            padding: 2px 6px;
             font-family: monospace;
-            font-size: 14px;
+            font-size: 13px;
             border-radius: 4px;
             border: 1px solid var(--db-border);
         }
 
         footer {
-            padding: 60px 24px;
-            background: var(--db-white);
+            padding: 50px 24px;
             border-top: 1px solid var(--db-border);
             text-align: center;
             font-size: 13px;
@@ -289,8 +241,14 @@
         }
 
         .footer-disclaimer p {
-            max-width: 700px;
+            max-width: 560px;
             margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.9rem;
+            }
         }
     </style>
 </head>
@@ -299,74 +257,86 @@
 
     <div class="nav-wrapper">
         <nav>
-            <a href="index.html" class="logo">donkey<span>bot</span></a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="index.html#modules">Suite</a>
-                <a href="install.html" class="btn-nav">Download</a>
-            </div>
+            <a href="index.html">home</a>
+            <a href="index.html#tools">tools</a>
+            <a href="install.html" class="nav-accent">install</a>
         </nav>
     </div>
 
     <header>
-        <div class="download-banner">
-            <h1>Get DonkeyBot</h1>
-            <p>Make your homework bearable. Download the latest release package below and follow the easy integration
-                guide for your browser.</p>
-            <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-accent">Download
-                Extension package
-                (.zip)</a>
-        </div>
+        <span class="eyebrow">donkeybot for sparx</span>
+        <h1>get it installed</h1>
+        <p>download the extension and follow the steps below for your browser. takes about two minutes.</p>
+        <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-primary">download the
+            extension ↗</a>
     </header>
 
     <section class="install-section">
         <div class="install-tabs">
-            <button class="tab-btn chrome active" onclick="switchBrowser('chrome')">Chrome</button>
-            <button class="tab-btn firefox" onclick="switchBrowser('firefox')">Firefox</button>
+            <button class="tab-btn chrome active" onclick="switchBrowser('chrome')">chrome</button>
+            <button class="tab-btn firefox" onclick="switchBrowser('firefox')">firefox</button>
         </div>
 
-        <div class="install-box">
-            <div class="step">
-                <strong>Step 1: Download files.</strong> Get the latest code from GitHub by clicking the green button
-                in the top-right corner and selecting <strong>"download zip"</strong>.
+        <div class="step">
+            <span class="step-num">01</span>
+            <div>
+                <strong>download the files</strong>
+                on the github page, click the green <strong>code</strong> button, then <strong>download
+                    zip</strong>.
                 <br>
-                <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-primary"
-                    style="margin-top: 16px; font-size: 14px; padding: 10px 20px;">GitHub Repository</a>
+                <a href="https://github.com/StudiedHawk2519/DonkeyBot" target="_blank" class="btn btn-secondary">github
+                    repository</a>
             </div>
+        </div>
 
-            <div id="instructions-chrome" class="browser-instructions active">
-                <div class="step">
-                    <strong>Step 2: Unzip the package.</strong> Extract the downloaded <code>.zip</code> file and locate
-                    the <strong>chrome</strong> folder. You can safely delete the other files and folders, and store
-                    this folder somewhere permanent.
-                </div>
-                <div class="step">
-                    <strong>Step 3: Open Extension Configurations.</strong> Open a new browser tab, visit
-                    <code>chrome://extensions</code> in your URL bar, and toggle on <strong>Developer Mode</strong> in
-                    the top-right corner.
-                </div>
-                <div class="step">
-                    <strong>Step 4: Load Extension Panel.</strong> Click the <strong>Load unpacked</strong> button in
-                    the top-left corner, then select your extracted <strong>chrome</strong> folder to complete
-                    installation.
+        <div id="instructions-chrome" class="browser-instructions active">
+            <div class="step">
+                <span class="step-num">02</span>
+                <div>
+                    <strong>unzip the package</strong>
+                    extract the downloaded <code>.zip</code> and find the <strong>chrome</strong> folder. keep this
+                    folder somewhere permanent — the rest can be deleted.
                 </div>
             </div>
+            <div class="step">
+                <span class="step-num">03</span>
+                <div>
+                    <strong>open extension settings</strong>
+                    go to <code>chrome://extensions</code> and turn on <strong>developer mode</strong> in the top
+                    right.
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-num">04</span>
+                <div>
+                    <strong>load the extension</strong>
+                    click <strong>load unpacked</strong> and select your <strong>chrome</strong> folder.
+                </div>
+            </div>
+        </div>
 
-            <div id="instructions-firefox" class="browser-instructions">
-                <div class="step">
-                    <strong>Step 2: Unzip the package.</strong> Extract the downloaded <code>.zip</code> file and locate
-                    the <strong>chrome</strong> folder. You can safely delete the other files and folders, and store
-                    this folder somewhere permanent.
+        <div id="instructions-firefox" class="browser-instructions">
+            <div class="step">
+                <span class="step-num">02</span>
+                <div>
+                    <strong>unzip the package</strong>
+                    extract the downloaded <code>.zip</code> and find the <strong>chrome</strong> folder. keep this
+                    folder somewhere permanent — the rest can be deleted.
                 </div>
-                <div class="step">
-                    <strong>Step 3: Open Runtime Debugger.</strong> Open a new browser tab, type
-                    <code>about:debugging#/runtime/this-firefox</code> into your URL bar, and hit Enter.
+            </div>
+            <div class="step">
+                <span class="step-num">03</span>
+                <div>
+                    <strong>open the runtime debugger</strong>
+                    type <code>about:debugging#/runtime/this-firefox</code> into the url bar and hit enter.
                 </div>
-                <div class="step">
-                    <strong>Step 4: Load Manifest File.</strong> Click on <strong>Load Temporary Add-on...</strong>,
-                    navigate inside your extracted <strong>chrome</strong> folder, and choose the
-                    <code>manifest.json</code> configuration file
-                    to complete setup.
+            </div>
+            <div class="step">
+                <span class="step-num">04</span>
+                <div>
+                    <strong>load the manifest</strong>
+                    click <strong>load temporary add-on...</strong>, open your <strong>chrome</strong> folder, and
+                    select <code>manifest.json</code>.
                 </div>
             </div>
         </div>
@@ -374,9 +344,8 @@
 
     <footer>
         <div class="footer-disclaimer">
-            <p>DonkeyBot is an independent collection of tools and is not affiliated with LanguageNut Ltd, Century-Tech
-                Limited, or Sparx Ltd.</p>
-            <p style="margin-top: 16px; opacity: 0.6;">DonkeyBot. Educational Purposes Only.</p>
+            <p>donkeybot is an independent tool and is not affiliated with sparx ltd.</p>
+            <p style="margin-top: 16px; opacity: 0.6;">donkeybot for sparx.</p>
         </div>
     </footer>
 
