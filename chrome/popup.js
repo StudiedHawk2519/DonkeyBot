@@ -1,36 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const lnToggle = document.getElementById('ln-toggle');
-    const decadeToggle = document.getElementById('decade-toggle');
-    const embersToggle = document.getElementById('embers-toggle');
-    const apiKeyInput = document.getElementById('decade-api-key');
+    const donkeybotToggle = document.getElementById('donkeybot-toggle');
+    const apiKeyInput = document.getElementById('llm7-api-key');
+    const nameToggle = document.getElementById('donkeybot-name-toggle');
+    const nameInput = document.getElementById('donkeybot-name');
+    const timerToggle = document.getElementById('donkeybot-timer-toggle');
+    const storage = globalThis.chrome && globalThis.chrome.storage ? globalThis.chrome.storage.local : null;
 
-    // Load all settings at once
-    chrome.storage.local.get({
-        languagenot_enabled: true,
-        decade_enabled: true,
-        embers_enabled: true,
-        decade_api_key: ''
+    if (!storage) {
+        return;
+    }
+
+    storage.get({
+        donkeybot_enabled: true,
+        llm7_api_key: '',
+        donkeybot_name_enabled: false,
+        donkeybot_name: '',
+        donkeybot_timer_enabled: true
     }, (data) => {
-        if (lnToggle) lnToggle.checked = data.languagenot_enabled;
-        if (decadeToggle) decadeToggle.checked = data.decade_enabled;
-        if (embersToggle) embersToggle.checked = data.embers_enabled;
-        if (apiKeyInput) apiKeyInput.value = data.decade_api_key;
+        if (donkeybotToggle) donkeybotToggle.checked = !!(data && data.donkeybot_enabled !== undefined ? data.donkeybot_enabled : true);
+        if (apiKeyInput) apiKeyInput.value = data && data.llm7_api_key ? data.llm7_api_key : '';
+        if (nameToggle) nameToggle.checked = !!(data && data.donkeybot_name_enabled);
+        if (nameInput) nameInput.value = data && data.donkeybot_name ? data.donkeybot_name : '';
+        if (timerToggle) timerToggle.checked = data && data.donkeybot_timer_enabled !== false;
     });
 
-    // Event Listeners for saving
-    lnToggle.addEventListener('change', () => {
-        chrome.storage.local.set({ languagenot_enabled: lnToggle.checked });
-    });
+    if (donkeybotToggle) {
+        donkeybotToggle.addEventListener('change', () => {
+            storage.set({ donkeybot_enabled: donkeybotToggle.checked });
+        });
+    }
 
-    decadeToggle.addEventListener('change', () => {
-        chrome.storage.local.set({ decade_enabled: decadeToggle.checked });
-    });
+    if (apiKeyInput) {
+        apiKeyInput.addEventListener('input', () => {
+            storage.set({ llm7_api_key: apiKeyInput.value });
+        });
+    }
 
-    embersToggle.addEventListener('change', () => {
-        chrome.storage.local.set({ embers_enabled: embersToggle.checked });
-    });
+    if (nameToggle) {
+        nameToggle.addEventListener('change', () => {
+            storage.set({ donkeybot_name_enabled: nameToggle.checked });
+        });
+    }
 
-    apiKeyInput.addEventListener('input', () => {
-        chrome.storage.local.set({ decade_api_key: apiKeyInput.value });
-    });
+    if (nameInput) {
+        nameInput.addEventListener('input', () => {
+            storage.set({ donkeybot_name: nameInput.value });
+        });
+    }
+
+    if (timerToggle) {
+        timerToggle.addEventListener('change', () => {
+            storage.set({ donkeybot_timer_enabled: timerToggle.checked });
+        });
+    }
 });

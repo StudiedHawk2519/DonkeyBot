@@ -2,97 +2,117 @@
 <html>
 
 <head>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Comic+Neue:wght@700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --db-accent: #ff6b6b;
-            --db-accent-dark: #ee5253;
-            --db-dark: #22153d;
-            --db-bg: #f8f9fa;
+            --db-bg: #f7f3f1;
+            --db-surface: #fffdfc;
+            --db-surface-strong: #ffffff;
+            --db-panel: #f4edea;
+            --db-border: rgba(65, 43, 39, 0.1);
+            --db-text: #2b1f1d;
+            --db-text-muted: #7a605d;
+            --db-accent: #d96b5c;
+            --db-accent-dark: #bb564d;
+            --db-accent-soft: rgba(217, 107, 92, 0.12);
             --db-white: #ffffff;
-            --db-gray: #f0f0f0;
-            --db-ugly: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive;
+            --db-muted-bg: rgba(218, 197, 192, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             width: 320px;
-            min-height: 480px;
+            min-height: 240px;
             padding: 0;
             margin: 0;
-            background-color: var(--db-white);
-            background-image: radial-gradient(var(--db-gray) 0.5px, transparent 0.5px);
-            background-size: 15px 15px;
-            font-family: 'Poppins', sans-serif;
-            color: var(--db-dark);
+            background: linear-gradient(180deg, #fbf7f5 0%, #f4efed 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--db-text);
             overflow-x: hidden;
         }
 
         .header {
-            text-align: center;
-            padding: 25px 0 15px 0;
-            background: white;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 10px 14px;
+            background: linear-gradient(90deg, #d96b5c 0%, #c85d4e 100%);
+            border-bottom: 1px solid rgba(82, 56, 48, 0.14);
+        }
+
+        .logo-wrap {
+            display: flex;
+            justify-content: center;
         }
 
         .logo {
-            font-family: var(--db-ugly);
-            font-size: 28px;
-            font-weight: 900;
-            transform: rotate(-2deg);
-            display: inline-block;
-            letter-spacing: -1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            padding: 0;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #fff;
+        }
+
+        .logo-mark {
+            display: none;
         }
 
         .logo span {
-            color: var(--db-accent);
+            color: #fff;
         }
 
         .container {
-            padding: 20px;
+            padding: 12px;
         }
 
         .card {
-            background: white;
-            border-radius: 25px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-            border-color: var(--db-accent);
+        .setting-option {
+            padding: 12px 14px;
+            background: #ffffff;
+            border: 1px solid var(--db-border);
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(40, 22, 20, 0.05);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 0;
+            padding: 0;
         }
 
         .card-header b {
-            font-family: var(--db-ugly);
-            font-size: 1.4rem;
-            color: var(--db-dark);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--db-text);
         }
 
         .info span {
             display: block;
             font-size: 11px;
-            color: #666;
+            color: var(--db-text-muted);
             line-height: 1.5;
         }
 
-        /* 3D ON/OFF TOGGLE BUTTON */
+        .info {
+            margin-top: 8px;
+        }
+
         .toggle-btn-wrapper {
             position: relative;
-            width: 65px;
-            height: 32px;
+            width: 60px;
+            height: 30px;
         }
 
         .toggle-btn-wrapper input {
@@ -108,145 +128,187 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            background: #ccc;
-            color: white;
-            font-family: var(--db-ugly);
-            font-size: 11px;
-            font-weight: 900;
-            border-radius: 12px;
+            background: rgba(63, 44, 41, 0.08);
+            border: 1px solid rgba(63, 44, 41, 0.12);
+            color: var(--db-text-muted);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            border-radius: 999px;
             cursor: pointer;
-            border-bottom: 4px solid #999;
-            transition: all 0.1s ease;
+            transition: all 0.16s ease;
             user-select: none;
             text-transform: uppercase;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
-        /* Default OFF State Text */
         .toggle-label::after {
             content: "OFF";
         }
 
-        /* ON State */
         input:checked+.toggle-label {
-            background: var(--db-accent);
-            border-bottom-color: var(--db-accent-dark);
+            background: linear-gradient(90deg, #d96b5c 0%, #c85d4e 100%);
+            border-color: rgba(133, 66, 60, 0.2);
+            color: #fff;
         }
 
         input:checked+.toggle-label::after {
             content: "ON";
         }
 
-        /* 3D Click Animation */
         .toggle-label:active {
-            transform: translateY(2px);
-            border-bottom-width: 1px;
-            margin-bottom: 3px;
+            transform: translateY(1px);
         }
 
-        .settings-area {
-            background: var(--db-gray);
-            border-radius: 20px;
-            padding: 15px;
-            margin-top: 10px;
+        .api-field {
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px 14px;
+            background: #ffffff;
+            border: 1px solid var(--db-border);
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(40, 22, 20, 0.05);
         }
 
-        .settings-title {
-            font-family: var(--db-ugly);
+        .api-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .api-label {
+            font-size: 11px;
+            color: var(--db-text-muted);
             font-weight: 700;
-            font-size: 13px;
-            display: block;
-            margin-bottom: 8px;
+        }
+
+        .api-link {
+            font-size: 10px;
+            color: var(--db-accent);
+            text-decoration: none;
+            font-weight: 800;
         }
 
         .api-input {
             width: 100%;
-            border: 2px solid white;
-            padding: 10px;
-            border-radius: 12px;
+            border: 1px solid rgba(65, 43, 39, 0.12);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--db-text);
+            padding: 10px 12px;
             font-size: 12px;
             outline: none;
-            box-sizing: border-box;
-            background: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
-        .note {
-            font-size: 10px;
-            color: #888;
-            margin-top: 10px;
-            line-height: 1.4;
+        .api-input::placeholder {
+            color: #8b7b77;
         }
 
-        .note a {
-            color: #00acee;
-            text-decoration: none;
+        .name-field {
+            margin-top: 0;
+            padding: 12px 14px;
+            background: #ffffff;
+            border: 1px solid var(--db-border);
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(40, 22, 20, 0.05);
+        }
+
+        .timer-field {
+            margin-top: 0;
+            padding: 12px 14px;
+            background: #ffffff;
+            border: 1px solid var(--db-border);
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(40, 22, 20, 0.05);
+        }
+
+        .name-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .name-label {
+            font-size: 11px;
+            color: var(--db-text-muted);
             font-weight: 700;
         }
 
-        body::-webkit-scrollbar {
-            width: 6px;
+        .name-input {
+            width: 100%;
+            border: 1px solid rgba(65, 43, 39, 0.12);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--db-text);
+            padding: 10px 12px;
+            font-size: 12px;
+            outline: none;
         }
 
-        body::-webkit-scrollbar-thumb {
-            background: #ddd;
-            border-radius: 10px;
+        .name-input::placeholder {
+            color: #8b7b77;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <div class="logo">donkey<span>bot</span></div>
+        <div class="logo-wrap">
+            <div class="logo"><span class="logo-mark"></span>donkey<span>bot</span></div>
+        </div>
     </div>
 
     <div class="container">
         <div class="card">
-            <div class="card-header">
-                <b>LanguageNot</b>
-                <div class="toggle-btn-wrapper">
-                    <input type="checkbox" id="ln-toggle">
-                    <label for="ln-toggle" class="toggle-label"></label>
+            <div class="setting-option">
+                <div class="card-header">
+                    <b>Sparx Maths</b>
+                    <div class="toggle-btn-wrapper">
+                        <input type="checkbox" id="donkeybot-toggle">
+                        <label for="donkeybot-toggle" class="toggle-label"></label>
+                    </div>
+                </div>
+                <div class="info">
+                    <span>Enable the DonkeyBot helper for Sparx Maths questions.</span>
                 </div>
             </div>
-            <div class="info">
-                <span>Works for multiple choice languagenut tasks. Doesn't use ai, just intercepts requests which means
-                    you get instant and 100% correct answers.</span>
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">
-                <b>Decade</b>
-                <div class="toggle-btn-wrapper">
-                    <input type="checkbox" id="decade-toggle">
-                    <label for="decade-toggle" class="toggle-label"></label>
+            <div class="api-field">
+                <div class="api-label-row">
+                    <label class="api-label" for="llm7-api-key">API key (optional)</label>
+                    <a class="api-link" href="https://dash.llm7.io/#/api-keys" target="_blank"
+                        rel="noopener noreferrer">Get key</a>
+                </div>
+                <input id="llm7-api-key" class="api-input" type="password"
+                    placeholder="Optional — not required for LLM7" />
+            </div>
+
+            <div class="timer-field">
+                <div class="name-header">
+                    <label class="name-label" for="donkeybot-timer-toggle">Session timer</label>
+                    <div class="toggle-btn-wrapper">
+                        <input type="checkbox" id="donkeybot-timer-toggle">
+                        <label for="donkeybot-timer-toggle" class="toggle-label"></label>
+                    </div>
                 </div>
             </div>
-            <div class="info">
-                <span>Adds an 'AI' button to the sidebar on Century. This is quite reliable but doesn't work with images
-                    and might take a moment to load.</span>
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">
-                <b>Embers</b>
-                <div class="toggle-btn-wrapper">
-                    <input type="checkbox" id="embers-toggle">
-                    <label for="embers-toggle" class="toggle-label"></label>
+            <div class="name-field">
+                <div class="name-header">
+                    <label class="name-label" for="donkeybot-name">Change Sparx name</label>
+                    <div class="toggle-btn-wrapper">
+                        <input type="checkbox" id="donkeybot-name-toggle">
+                        <label for="donkeybot-name-toggle" class="toggle-label"></label>
+                    </div>
                 </div>
-            </div>
-            <div class="info">
-                <span>Adds an ai button to Sparx Maths. Because after Sparx sets your brain on fire, these answers are
-                    the only things left in the ashes (epic joke)!</span>
-            </div>
-        </div>
-
-        <div class="settings-area">
-            <span class="settings-title">API key (llm7) Settings</span>
-            <input type="password" id="decade-api-key" class="api-input" placeholder="unused">
-            <div class="note">
-                Optional - adding one will give you way more requests per minute, but it isn't really needed. Get one
-                for free at <a href="https://token.llm7.io/" target="_blank">token.llm7.io</a>
+                <input id="donkeybot-name" class="name-input" type="text" maxlength="40"
+                    placeholder="Type a display name" />
             </div>
         </div>
     </div>

@@ -2,10 +2,13 @@
     "manifest_version": 3,
     "name": "DonkeyBot",
     "version": "1.2",
-    "description": "DonkeyBot - Homework Helper. Includes LanguageNot, Decade, and Embers.",
+    "description": "DonkeyBot - Sparx Maths Helper.",
     "permissions": [
         "storage",
         "scripting"
+    ],
+    "host_permissions": [
+        "https://api.llm7.io/*"
     ],
     "action": {
         "default_popup": "popup.html",
@@ -19,28 +22,10 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.languagenut.com/*"
-            ],
-            "js": [
-                "content.js"
-            ],
-            "run_at": "document_idle"
-        },
-        {
-            "matches": [
-                "*://*.century.tech/*"
-            ],
-            "js": [
-                "decade.js"
-            ],
-            "run_at": "document_idle"
-        },
-        {
-            "matches": [
                 "https://maths.sparx-learning.com/*"
             ],
             "js": [
-                "embers.js"
+                "donkeybot.js"
             ],
             "run_at": "document_idle"
         }
@@ -48,9 +33,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "inject.js",
-                "decade_inject.js",
-                "embers_inject.js",
+                "donkeybot_inject.js",
                 "assets/icon.svg"
             ],
             "matches": [
